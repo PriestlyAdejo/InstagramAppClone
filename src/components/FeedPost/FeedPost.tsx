@@ -6,19 +6,25 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
 import styles from './styles';
+import Comment from '../Comment/Comment';
+import {IPost} from '../../types/models';
 
-const FeedPost = () => {
+interface IFeedPost {
+  post: IPost;
+}
+
+const FeedPost = ({post}: IFeedPost) => {
   return (
     <View style={styles.post}>
       {/* Header */}
       <View style={styles.header}>
         <Image
           source={{
-            uri: 'https://www.pngkit.com/png/full/126-1262807_instagram-default-profile-picture-png.png',
+            uri: post.user.image,
           }}
           style={styles.userAvatar}
         />
-        <Text style={styles.userName}>priestlyadejo</Text>
+        <Text style={styles.userName}>{post.user.username}</Text>
         <Entypo
           name="dots-three-horizontal"
           size={16}
@@ -28,7 +34,7 @@ const FeedPost = () => {
       {/* Content */}
       <Image
         source={{
-          uri: 'https://images.pexels.com/photos/17781404/pexels-photo-17781404/free-photo-of-wood-road-landscape-water.jpeg',
+          uri: post.image,
         }}
         style={styles.image}
       />
@@ -63,36 +69,25 @@ const FeedPost = () => {
         </View>
 
         <Text style={styles.text}>
-          Liked by <Text style={styles.bold}>praiseadejo</Text> and{' '}
-          <Text style={styles.bold}>69 others</Text>
+          Liked by{' '}
+          <Text style={styles.bold}>{post.comments[0].user.username}</Text> and{' '}
+          <Text style={styles.bold}>{post.nofLikes} others</Text>
         </Text>
 
         {/* Post Content */}
         <Text style={styles.text}>
-          <Text style={styles.bold}>priestlyadejo</Text> Lorem ipsum dolor sit
-          amet consectetur adipisicing elit. Alias inventore delectus
-          accusantium quia debitis quas perspiciatis dolorum quis ut! Magnam
-          dolorem expedita accusantium libero doloribus quia pariatur quo quae
-          fuga.
+          <Text style={styles.bold}>{post.user.username}</Text>{' '}
+          {post.description}
         </Text>
 
         {/* Comments */}
-        <Text>View all 16 comments</Text>
-        <View style={styles.comment}>
-          <Text style={styles.commentText}>
-            <Text style={styles.bold}>dogNiggaxoxo</Text> Lorem ipsum dolor sit
-            amet consectetur adipisicing elit.
-          </Text>
-          <AntDesign
-            name={'hearto'}
-            size={14}
-            style={styles.icon}
-            color={colors.black}
-          />
-        </View>
-
+        <Text>View all {post.nofComments} comments</Text>
+        {post.comments.map(commentObject => (
+          <Comment comment={commentObject} key={commentObject.id} />
+        ))}
         {/* Posted Date */}
-        <Text>19th December, 2021</Text>
+        {/* post.createdAt */}
+        <Text>19th December, 2023</Text>
       </View>
     </View>
   );
