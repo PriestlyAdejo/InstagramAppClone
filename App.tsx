@@ -5,6 +5,7 @@ import posts from './src/assets/data/posts.json';
 import { IPost } from './src/types/models';
 import HomeScreen from './src/screens/HomeScreen';
 import CommentScreen from './src/screens/CommentScreen/CommentScreen';
+import ProfileScreen from './src/screens/ProfileScreen/ProfileScreen';
 
 const styles = StyleSheet.create({
   app: {
@@ -17,7 +18,7 @@ const styles = StyleSheet.create({
 const App = () => {
   return (
     <View style={styles.app}>
-      <CommentScreen />
+      <ProfileScreen />
     </View>
   );
 };
