@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
 const App = () => {
   return (
     <View style={styles.app}>
-      <HomeScreen />
+      <CommentScreen />
     </View>
   );
 };
