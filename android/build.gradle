@@ -13,6 +13,12 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+
+        jcenter() {
+            content {
+                includeModule("com.yqritc", "android-scalablevideoview")
+            }
+        }
     }
     dependencies {
         classpath("com.android.tools.build:gradle")

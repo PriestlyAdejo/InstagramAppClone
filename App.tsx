@@ -4,6 +4,7 @@ import FeedPost from './src/components/FeedPost';
 import posts from './src/assets/data/posts.json';
 import { IPost } from './src/types/models';
 import HomeScreen from './src/screens/HomeScreen';
+import CommentScreen from './src/screens/CommentScreen/CommentScreen';
 
 const styles = StyleSheet.create({
   app: {
