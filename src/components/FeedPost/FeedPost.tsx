@@ -12,6 +12,7 @@ import { useState } from 'react';
 import DoublePressable from '../DoublePressable';
 import Carousel from '../Carousel/Carousel';
 import VideoPlayer from '../VideoPlayer/VideoPlayer';
+import { useNavigation } from '@react-navigation/native';
 
 interface IFeedPost {
   post: IPost;
@@ -21,6 +22,12 @@ interface IFeedPost {
 const FeedPost = ({ post, isVisible }: IFeedPost) => {
   const [isDescExpanded, setIsDescExpanded] = useState(false);
   const [isLiked, setIsLiked] = useState(true);
+
+  const navigation = useNavigation();
+
+  const navigateToUser = () => {
+    navigation.navigate('UserProfile', { userId: post.user.id });
+  };
 
   const toggleDescExpanded = () => {
     setIsDescExpanded((v) => !v);
@@ -72,7 +79,9 @@ const FeedPost = ({ post, isVisible }: IFeedPost) => {
           />
         </DoublePressable>
 
-        <Text style={styles.userName}>{post.user.username}</Text>
+        <Text onPress={navigateToUser} style={styles.userName}>
+          {post.user.username}
+        </Text>
         <Entypo
           name="dots-three-horizontal"
           size={16}

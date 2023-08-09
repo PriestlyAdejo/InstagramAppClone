@@ -4,7 +4,7 @@ import FeedPost from '../components/FeedPost';
 import posts from '../assets/data/posts.json';
 import { useRef, useState } from 'react';
 
-const HomeScreen = () => {
+const HomeScreen = (props) => {
   const [activePostId, setActivePostId] = useState<string | null>(null);
 
   const viewabilityConfig: ViewabilityConfig = {

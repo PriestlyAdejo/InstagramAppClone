@@ -6,7 +6,7 @@ import {
   FlashMode,
   CameraType,
   CameraPictureOptions,
-  CameraRecordingptions,
+  CameraRecordingOptions,
 } from 'expo-camera/build/Camera.types';
 import styles from './styles';
 import colors from '../../theme/colors';
@@ -25,7 +25,7 @@ const flashModeToIcon = {
   [FlashMode.torch]: 'highlight',
 };
 
-const PostUploadScreen = (props: Props) => {
+const PostUploadScreen = () => {
   const [hasPermissions, setHasPermissions] = useState<boolean | null>(null);
   const [cameraType, setCameraType] = useState(CameraType.back);
   const [flash, setFlash] = useState(FlashMode.off);
@@ -84,7 +84,7 @@ const PostUploadScreen = (props: Props) => {
         return;
       }
 
-      const options: CameraRecordingptions = {
+      const options: CameraRecordingOptions = {
         quality: Camera.Constants.VideoQuality['640:480'],
         maxDuration: 60,
         maxFileSize: 10 * 1024 * 1024,

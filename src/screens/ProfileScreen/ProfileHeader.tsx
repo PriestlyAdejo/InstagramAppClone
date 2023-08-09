@@ -2,8 +2,11 @@ import { Text, View, FlatList, Image } from 'react-native';
 import user from '../../assets/data/user.json';
 import styles from './styles';
 import Button from '../../components/Button/Button';
+import { useNavigation } from '@react-navigation/native';
 
 const ProfileHeader = () => {
+  const navigation = useNavigation();
+
   return (
     <View style={styles.root}>
       {/* Header with profile and metrics */}
@@ -37,10 +40,7 @@ const ProfileHeader = () => {
           text="Edit Profile"
           onPress={() => console.warn('On Edit Profile')}
         />
-        <Button
-          text="Edit Profile"
-          onPress={() => console.warn('On Edit Profile')}
-        />
+        <Button text="Go Back" onPress={() => navigation.goBack()} />
       </View>
     </View>
   );
