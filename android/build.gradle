@@ -19,6 +19,10 @@ buildscript {
                 includeModule("com.yqritc", "android-scalablevideoview")
             }
         }
+
+        maven {
+            url "$rootDir/../node_modules/expo-camera/android/maven"
+        }
     }
     dependencies {
         classpath("com.android.tools.build:gradle")
