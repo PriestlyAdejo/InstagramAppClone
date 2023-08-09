@@ -6,6 +6,8 @@ import { IPost } from './src/types/models';
 import HomeScreen from './src/screens/HomeScreen';
 import CommentScreen from './src/screens/CommentScreen/CommentScreen';
 import ProfileScreen from './src/screens/ProfileScreen/ProfileScreen';
+import EditProfileScreen from './src/screens/EditProfileScreen/EditProfileScreen';
+import PostUploadScreen from './src/screens/PostUploadScreen/PostUploadScreen';
 
 const styles = StyleSheet.create({
   app: {
@@ -18,7 +20,7 @@ const styles = StyleSheet.create({
 const App = () => {
   return (
     <View style={styles.app}>
-      <ProfileScreen />
+      <PostUploadScreen />
     </View>
   );
 };
