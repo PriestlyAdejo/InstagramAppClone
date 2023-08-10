@@ -7,7 +7,7 @@ import FeedGridView from '../../components/FeedGridView/FeedGridView';
 const ProfileScreen = () => {
   const route = useRoute();
   const navigation = useNavigation();
-  const { userId } = route.params;
+  const userId = route.params?.userId;
   // Query the user with userID, dont send full objects only use identifiers
   navigation.setOptions({ title: user.username });
 
