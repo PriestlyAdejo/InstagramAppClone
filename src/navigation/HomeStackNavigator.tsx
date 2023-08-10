@@ -5,8 +5,9 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import HomeScreen from '../screens/HomeScreen';
 import { Image } from 'react-native';
 import logo from '../assets/images/logo.png';
+import { HomeStackNavigatorParamList } from './types';
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<HomeStackNavigatorParamList>();
 
 const HomeStackNavigator = () => {
   const navigation = useNavigation();

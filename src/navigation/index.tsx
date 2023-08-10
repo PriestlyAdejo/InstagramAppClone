@@ -3,8 +3,10 @@ import HomeScreen from '../screens/HomeScreen';
 import ProfileScreen from '../screens/ProfileScreen/ProfileScreen';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import BottomTabNavigator from './BottomTabNavigator';
+import CommentScreen from '../screens/CommentScreen/CommentScreen';
+import { RootNavigator } from './types';
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootNavigator>();
 
 const Navigation = () => {
   return (
@@ -19,11 +21,7 @@ const Navigation = () => {
           options={{ headerShown: false }}
         />
 
-        <Stack.Screen
-          name="UserProfile"
-          component={ProfileScreen}
-          options={{ title: 'Profile' }}
-        />
+        <Stack.Screen name="Comments" component={CommentScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
