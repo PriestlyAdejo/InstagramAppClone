@@ -3,7 +3,7 @@ import user from '../../assets/data/user.json';
 import styles from './styles';
 import Button from '../../components/Button/Button';
 import { useNavigation } from '@react-navigation/native';
-import { ProfileNavigationProp } from '../../navigation/types';
+import { ProfileNavigationProp } from '../../types/navigation';
 import { Auth } from 'aws-amplify';
 
 const ProfileHeader = () => {

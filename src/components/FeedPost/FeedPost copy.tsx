@@ -11,28 +11,14 @@ import { IPost } from '../../types/models';
 import { useState } from 'react';
 import DoublePressable from '../DoublePressable';
 import Carousel from '../Carousel/Carousel';
-import VideoPlayer from '../VideoPlayer/VideoPlayer';
-import { useNavigation } from '@react-navigation/native';
-import { FeedNavigationProp } from '../../types/navigation';
 
 interface IFeedPost {
   post: IPost;
-  isVisible: boolean;
 }
 
-const FeedPost = ({ post, isVisible }: IFeedPost) => {
+const FeedPost = ({ post }: IFeedPost) => {
   const [isDescExpanded, setIsDescExpanded] = useState(false);
   const [isLiked, setIsLiked] = useState(true);
-
-  const navigation = useNavigation<FeedNavigationProp>();
-
-  const navigateToUser = () => {
-    navigation.navigate('UserProfile', { userId: post.user.id });
-  };
-
-  const navigateToComments = () => {
-    navigation.navigate('Comments', { postId: post.id });
-  };
 
   const toggleDescExpanded = () => {
     setIsDescExpanded((v) => !v);
@@ -64,11 +50,7 @@ const FeedPost = ({ post, isVisible }: IFeedPost) => {
   } else if (post.images) {
     content = <Carousel images={post.images} onDoublePress={toggleLiked} />;
   } else if (post.video) {
-    content = (
-      <DoublePressable onDoublePress={toggleLiked}>
-        <VideoPlayer uri={post.video} paused={!isVisible} />
-      </DoublePressable>
-    );
+    content = <VideoPlayer uri={post.video} />;
   }
 
   return (
@@ -84,9 +66,7 @@ const FeedPost = ({ post, isVisible }: IFeedPost) => {
           />
         </DoublePressable>
 
-        <Text onPress={navigateToUser} style={styles.userName}>
-          {post.user.username}
-        </Text>
+        <Text style={styles.userName}>{post.user.username}</Text>
         <Entypo
           name="dots-three-horizontal"
           size={16}
@@ -144,9 +124,7 @@ const FeedPost = ({ post, isVisible }: IFeedPost) => {
         </Text>
 
         {/* Comments */}
-        <Text onPress={navigateToComments}>
-          View all {post.nofComments} comments
-        </Text>
+        <Text>View all {post.nofComments} comments</Text>
         {post.comments.map((commentObject) => (
           <Comment comment={commentObject} key={commentObject.id} />
         ))}

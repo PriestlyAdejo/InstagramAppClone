@@ -5,7 +5,7 @@ import {
   useSafeAreaInsets,
 } from 'react-native-safe-area-context';
 import colors from '../theme/colors';
-import { SearchTabNavigatorParamList } from './types';
+import { SearchTabNavigatorParamList } from '../types/navigation';
 import UserSearchScreen from '../screens/UserSearchScreen/UserSearchScreen';
 
 const Tab = createMaterialTopTabNavigator<SearchTabNavigatorParamList>();
