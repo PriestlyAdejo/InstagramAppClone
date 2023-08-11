@@ -9,6 +9,7 @@ import {
 } from 'react';
 import { CognitoUser } from 'amazon-cognito-identity-js';
 import { Auth, Hub } from 'aws-amplify';
+import { HubCallback } from '@aws-amplify/core';
 
 type UserType = CognitoUser | null | undefined;
 type AuthContextType = {
@@ -39,7 +40,7 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   useEffect(() => {
-    const listener = (data) => {
+    const listener: HubCallback = (data) => {
       const { event } = data.payload;
       if (event === 'signOut') {
         setUser(null);
