@@ -4,6 +4,7 @@ import styles from './styles';
 import Button from '../../components/Button/Button';
 import { useNavigation } from '@react-navigation/native';
 import { ProfileNavigationProp } from '../../navigation/types';
+import { Auth } from 'aws-amplify';
 
 const ProfileHeader = () => {
   const navigation = useNavigation<ProfileNavigationProp>();
@@ -41,7 +42,7 @@ const ProfileHeader = () => {
           text="Edit Profile"
           onPress={() => navigation.navigate('Edit Profile')}
         />
-        <Button text="Go Back" onPress={() => navigation.goBack()} />
+        <Button text="Sign Out" onPress={() => Auth.signOut()} />
       </View>
     </View>
   );

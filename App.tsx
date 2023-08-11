@@ -1,26 +1,75 @@
 /* eslint-disable react/react-in-jsx-scope */
-import { StyleSheet, FlatList, View } from 'react-native';
-// import FeedPost from './src/components/FeedPost';
-// import posts from './src/assets/data/posts.json';
-// import { IPost } from './src/types/models';
-// import HomeScreen from './src/screens/HomeScreen';
-// import CommentScreen from './src/screens/CommentScreen/CommentScreen';
-// import ProfileScreen from './src/screens/ProfileScreen/ProfileScreen';
-// import EditProfileScreen from './src/screens/EditProfileScreen/EditProfileScreen';
-// import PostUploadScreen from './src/screens/PostUploadScreen/PostUploadScreen';
-
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Navigation from './src/navigation';
+import { withAuthenticator, AmplifyTheme } from 'aws-amplify-react-native';
+import { Amplify } from 'aws-amplify';
+import awsExports from './src/aws-exports';
+import colors from './src/theme/colors';
 
-const styles = StyleSheet.create({
-  app: {
-    height: 1000,
-    width: '100%',
-    flex: 1,
-  },
-});
+Amplify.configure(awsExports);
 
 const App = () => {
-  return <Navigation />;
+  return (
+    <SafeAreaProvider>
+      <Navigation />
+    </SafeAreaProvider>
+  );
 };
 
-export default App;
+const signUpConfig = {
+  hideAllDefaults: true,
+  signUpFields: [
+    {
+      label: 'Full Name',
+      key: 'name',
+      required: true,
+      displayOrder: 1,
+      type: 'string',
+      placeholder: 'Full Name',
+    },
+    {
+      label: 'Email',
+      key: 'email',
+      required: true,
+      displayOrder: 2,
+      type: 'string',
+      placeholder: 'Email',
+    },
+    {
+      label: 'Username',
+      key: 'username',
+      required: true,
+      displayOrder: 3,
+      type: 'string',
+      placeholder: 'Username/handle',
+    },
+    {
+      label: 'Password',
+      key: 'password',
+      required: true,
+      displayOrder: 4,
+      type: 'string',
+      placeholder: 'Password',
+    },
+  ],
+};
+
+const customTheme = {
+  ...AmplifyTheme,
+  button: {
+    ...AmplifyTheme.button,
+    backgroundColor: colors.primary,
+    borderRadius: 100,
+  },
+  sectionFooterLink: {
+    ...AmplifyTheme.sectionFooterLink,
+    color: colors.primary,
+  },
+  buttonDisabled: {
+    ...AmplifyTheme.buttonDisabled,
+    color: '#5c78ff',
+    borderRadius: 100,
+  },
+};
+
+export default withAuthenticator(App, { signUpConfig });
