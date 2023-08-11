@@ -4,7 +4,7 @@ import FormInput from '../components/FormInput';
 import CustomButton from '../components/CustomButton';
 import { useNavigation } from '@react-navigation/core';
 import { useForm } from 'react-hook-form';
-import { ForgotPasswordNavigationProp } from '../../../types/models';
+import { ForgotPasswordNavigationProp } from '../../../types/navigation';
 import { Auth } from 'aws-amplify';
 
 type ForgotPasswordData = {
