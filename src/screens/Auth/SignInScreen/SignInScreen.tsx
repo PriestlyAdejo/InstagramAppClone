@@ -15,6 +15,7 @@ import { useForm } from 'react-hook-form';
 import { SignInNavigationProp } from '../../../types/models';
 import { Auth } from 'aws-amplify';
 import { useState } from 'react';
+import { useAuthContext } from '../../../Context/AuthContext';
 
 type SignInData = {
   email: string;
@@ -25,6 +26,7 @@ const SignInScreen = () => {
   const { height } = useWindowDimensions();
   const navigation = useNavigation<SignInNavigationProp>();
   const [loading, setLoading] = useState(false);
+  const { setUser } = useAuthContext();
 
   const { control, handleSubmit, reset } = useForm<SignInData>();
 
@@ -34,7 +36,8 @@ const SignInScreen = () => {
     }
     setLoading(true);
     try {
-      await Auth.signIn(email, password);
+      const cognitoUser = await Auth.signIn(email, password);
+      setUser(cognitoUser);
     } catch (e) {
       if ((e as Error).name === 'UserNotConfirmedException') {
         navigation.navigate('Confirm email', { email });
