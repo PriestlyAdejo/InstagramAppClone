@@ -9,11 +9,18 @@
       "UnauthRoleName": "amplify-instagramclone-staging-221821-unauthRole",
       "StackName": "amplify-instagramclone-staging-221821",
       "StackId": "arn:aws:cloudformation:eu-west-1:400126598088:stack/amplify-instagramclone-staging-221821/d13a9430-37cb-11ee-a051-02b014fc3f75",
-      "AmplifyAppId": "d3e1w5eqwav9yo"
+      "AmplifyAppId": "d3e1w5eqwav9yo",
+      "AuthTriggerTemplateURL": "https://s3.amazonaws.com/amplify-instagramclone-staging-221821-deployment/amplify-cfn-templates/auth/auth-trigger-cloudformation-template.json"
     },
     "categories": {
       "auth": {
         "InstagramClone": {}
+      },
+      "function": {
+        "InstagramClonePostConfirmation": {
+          "deploymentBucketName": "amplify-instagramclone-staging-221821-deployment",
+          "s3Key": "amplify-builds/InstagramClonePostConfirmation-5a4c774f75436d326d30-build.zip"
+        }
       }
     }
   }
