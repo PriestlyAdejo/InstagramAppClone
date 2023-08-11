@@ -78,9 +78,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.instagram"
+    namespace "dev.priest.agram"
     defaultConfig {
-        applicationId "com.instagram"
+        applicationId "dev.priest.agram"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

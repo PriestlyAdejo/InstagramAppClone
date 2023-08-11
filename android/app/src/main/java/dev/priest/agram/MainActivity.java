@@ -1,4 +1,4 @@
-package com.instagram;
+package dev.priest.agram;
 import expo.modules.ReactActivityDelegateWrapper;
 
 import com.facebook.react.ReactActivity;
@@ -16,7 +16,7 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected String getMainComponentName() {
-    return "Instagram";
+    return "Priestagram";
   }
 
   /**
