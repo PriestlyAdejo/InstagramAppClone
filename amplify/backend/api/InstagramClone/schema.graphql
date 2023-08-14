@@ -23,6 +23,7 @@ type Post @model @auth(rules: [{ allow: public }]) {
   nofComments: Int!
   nofLikes: Int!
   userID: ID! @index(name: "byUser")
+  User: User @belongsTo(fields: ["userID"])
   Likes: [Like] @hasMany(indexName: "byPost", fields: ["id"])
   Comments: [Comment] @hasMany(indexName: "byPost", fields: ["id"])
 }
@@ -31,6 +32,8 @@ type Like @model @auth(rules: [{ allow: public }]) {
   id: ID!
   userID: ID! @index(name: "byUser")
   postID: ID! @index(name: "byPost")
+  User: User @belongsTo(fields: ["userID"])
+  Post: Post @belongsTo(fields: ["userID"])
 }
 
 type Comment @model @auth(rules: [{ allow: public }]) {
@@ -38,4 +41,6 @@ type Comment @model @auth(rules: [{ allow: public }]) {
   comment: String!
   userID: ID! @index(name: "byUser")
   postID: ID! @index(name: "byPost")
+  User: User @belongsTo(fields: ["userID"])
+  Post: Post @belongsTo(fields: ["userID"])
 }
