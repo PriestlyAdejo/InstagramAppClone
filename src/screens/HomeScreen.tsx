@@ -4,6 +4,7 @@ import FeedPost from '../components/FeedPost';
 import posts from '../assets/data/posts.json';
 import { useRef, useState, useEffect } from 'react';
 import { API, graphqlOperation } from 'aws-amplify';
+// import { listPosts } from '../graphql/queries';
 
 export const listPosts = /* GraphQL */ `
   query ListPosts(
@@ -21,6 +22,11 @@ export const listPosts = /* GraphQL */ `
         nofComments
         nofLikes
         userID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
         User {
           id
           name
@@ -34,15 +40,9 @@ export const listPosts = /* GraphQL */ `
             User {
               id
               name
-              username
             }
           }
         }
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
         __typename
       }
       nextToken
@@ -52,13 +52,14 @@ export const listPosts = /* GraphQL */ `
   }
 `;
 
-const HomeScreen = (props) => {
+const HomeScreen = () => {
   const [activePostId, setActivePostId] = useState<string | null>(null);
   const [posts, setPosts] = useState([]);
 
   const fetchPosts = async () => {
     try {
       const response = await API.graphql(graphqlOperation(listPosts));
+      console.log('API_RESPONSE:', response.data.listPosts.items[0]);
       setPosts(response.data.listPosts.items);
     } catch (error) {
       console.log('ERROR_FETCH_POSTS:', error);

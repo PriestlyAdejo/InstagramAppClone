@@ -18,7 +18,7 @@ import { DEFAULT_USER_IMAGE } from '../../config';
 
 interface IFeedPost {
   post: Post;
-  isVisible: boolean;
+  isVisible?: boolean;
 }
 
 const FeedPost = ({ post, isVisible }: IFeedPost) => {
@@ -131,11 +131,15 @@ const FeedPost = ({ post, isVisible }: IFeedPost) => {
           />
         </View>
 
-        <Text style={styles.text}>
-          Liked by{' '}
-          <Text style={styles.bold}>{post.Comments[0].user.username}</Text> and{' '}
-          <Text style={styles.bold}>{post.nofLikes} others</Text>
-        </Text>
+        {post.Comments[0] && (
+          <Text style={styles.text}>
+            Liked by
+            <Text style={styles.bold}>
+              {post.Comments[0].user.username}
+            </Text>{' '}
+            and <Text style={styles.bold}>{post.nofLikes} others</Text>
+          </Text>
+        )}
 
         {/* Post Content */}
         <Text style={styles.text} numberOfLines={isDescExpanded ? 0 : 3}>
@@ -147,9 +151,13 @@ const FeedPost = ({ post, isVisible }: IFeedPost) => {
         </Text>
 
         {/* Comments */}
-        <Text onPress={navigateToComments}>
-          View all {post.nofComments} comments
-        </Text>
+        {post.Comments[0] ? (
+          <Text onPress={navigateToComments}>
+            View all {post.nofComments} comments
+          </Text>
+        ) : (
+          <Text onPress={navigateToComments}>No comments yet</Text>
+        )}
         {(post.Comments?.items || []).map(
           (commentObject) =>
             commentObject && (
