@@ -2,8 +2,11 @@
  * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
  */
 
-const AWS = require('aws-sdk');
-const docClient = new AWS.DynamoDB.DocumentClient();
+import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
+import { DynamoDBDocumentClient, GetCommand } from '@aws-sdk/lib-dynamodb';
+
+const client = new DynamoDBClient({});
+const docClient = DynamoDBDocumentClient.from(client);
 
 const env = process.env.ENV;
 const AppSyncId = process.env.API_INSTAGRAMCLONE_GRAPHQLAPIKEYOUTPUT;
@@ -16,7 +19,9 @@ const userExists = async (id) => {
   };
 
   try {
-    const response = await docClient.get(params).promise();
+    const getCommand = new GetCommand(params);
+    const response = await docClient.send(getCommand);
+    console.log('GET_COMMAND_RESPONSE', response);
     return !!response?.Item;
   } catch (error) {
     console.log('ERROR_GETTING_DB_DATA', error);
@@ -44,7 +49,9 @@ const saveUser = async (user) => {
   };
 
   try {
-    await docClient.put(params).promise();
+    const putCommand = new PutCommand(params);
+    const response = await docClient.send(putCommand);
+    console.log('PUT_COMMAND_RESPONSE', response);
   } catch (error) {
     console.log('ERROR_SAVING_DB_DATA', error);
   }
@@ -66,11 +73,16 @@ exports.handler = async (event, context) => {
   };
 
   // Check if user already exists
-  if (!userExists(newUser.id)) {
-    saveUser(newUser);
+  try {
+    // If not, save the user to the database
+    if (!(await userExists(newUser.id))) {
+      await saveUser(newUser);
+      console.log('USER_SAVED_IN_DB', `USER.ID:${newUser.id}`);
+    } else {
+      console.log('USER_ALREADY_EXISTS', `USER.ID:${newUser.id}`);
+    }
+  } catch (error) {
+    console.log('ERROR_SAVING_DB_USER', error);
   }
-
-  // If not, save the user to the database
-
   return event;
 };
