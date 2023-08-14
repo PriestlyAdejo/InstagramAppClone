@@ -7,16 +7,17 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
 import styles from './styles';
 import Comment from '../Comment/Comment';
-import { IPost } from '../../types/models';
 import { useState } from 'react';
 import DoublePressable from '../DoublePressable';
 import Carousel from '../Carousel/Carousel';
 import VideoPlayer from '../VideoPlayer/VideoPlayer';
 import { useNavigation } from '@react-navigation/native';
 import { FeedNavigationProp } from '../../types/navigation';
+import { Post } from '../../API';
+import { DEFAULT_USER_IMAGE } from '../../config';
 
 interface IFeedPost {
-  post: IPost;
+  post: Post;
   isVisible: boolean;
 }
 
@@ -27,7 +28,9 @@ const FeedPost = ({ post, isVisible }: IFeedPost) => {
   const navigation = useNavigation<FeedNavigationProp>();
 
   const navigateToUser = () => {
-    navigation.navigate('UserProfile', { userId: post.user.id });
+    if (post.User) {
+      navigation.navigate('UserProfile', { userId: post.User?.id });
+    }
   };
 
   const navigateToComments = () => {
@@ -78,14 +81,14 @@ const FeedPost = ({ post, isVisible }: IFeedPost) => {
         <DoublePressable onDoublePress={toggleLiked}>
           <Image
             source={{
-              uri: post.user.image,
+              uri: post.User?.image || DEFAULT_USER_IMAGE,
             }}
             style={styles.userAvatar}
           />
         </DoublePressable>
 
         <Text onPress={navigateToUser} style={styles.userName}>
-          {post.user.username}
+          {post.User?.username}
         </Text>
         <Entypo
           name="dots-three-horizontal"
@@ -130,13 +133,13 @@ const FeedPost = ({ post, isVisible }: IFeedPost) => {
 
         <Text style={styles.text}>
           Liked by{' '}
-          <Text style={styles.bold}>{post.comments[0].user.username}</Text> and{' '}
+          <Text style={styles.bold}>{post.Comments[0].user.username}</Text> and{' '}
           <Text style={styles.bold}>{post.nofLikes} others</Text>
         </Text>
 
         {/* Post Content */}
         <Text style={styles.text} numberOfLines={isDescExpanded ? 0 : 3}>
-          <Text style={styles.bold}>{post.user.username}</Text>{' '}
+          <Text style={styles.bold}>{post.User?.username}</Text>{' '}
           {post.description}
         </Text>
         <Text onPress={toggleDescExpanded}>
@@ -147,9 +150,12 @@ const FeedPost = ({ post, isVisible }: IFeedPost) => {
         <Text onPress={navigateToComments}>
           View all {post.nofComments} comments
         </Text>
-        {post.comments.map((commentObject) => (
-          <Comment comment={commentObject} key={commentObject.id} />
-        ))}
+        {(post.Comments?.items || []).map(
+          (commentObject) =>
+            commentObject && (
+              <Comment comment={commentObject} key={commentObject.id} />
+            )
+        )}
         {/* Posted Date */}
         {/* post.createdAt */}
         <Text>19th December, 2023</Text>
