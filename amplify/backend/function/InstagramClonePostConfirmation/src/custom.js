@@ -3,7 +3,11 @@
  */
 
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { DynamoDBDocumentClient, GetCommand } from '@aws-sdk/lib-dynamodb';
+import {
+  DynamoDBDocumentClient,
+  GetCommand,
+  PutCommand,
+} from '@aws-sdk/lib-dynamodb';
 
 const client = new DynamoDBClient({});
 const docClient = DynamoDBDocumentClient.from(client);
@@ -57,7 +61,7 @@ const saveUser = async (user) => {
   }
 };
 
-exports.handler = async (event, context) => {
+export const handler = async (event, context) => {
   console.log('Lambda function is working', event);
 
   if (!event?.request?.userAttributes) {
@@ -67,7 +71,7 @@ exports.handler = async (event, context) => {
 
   const { sub, name, email } = event?.request?.userAttributes; // {sub, user, name}
   const newUser = {
-    id: userAttributes.sub,
+    id: sub,
     name,
     email,
   };

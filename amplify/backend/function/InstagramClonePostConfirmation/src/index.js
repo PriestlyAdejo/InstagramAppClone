@@ -22,8 +22,11 @@ Amplify Params - DO NOT EDIT */ /**
 // const modules = moduleNames.map(async (name) => await import(`./${name}`));
 const moduleNames = process.env.MODULES.split(',');
 const modules = moduleNames.map(async (name) => {
-  const importedModule = await import(`./${name}`);
-  return importedModule.handler;
+  const importedModuleHandler = await import(`./${name}.js`); // Already exported so now need to import again
+  if (importedModuleHandler.handler) {
+    return importedModuleHandler.handler;
+  }
+  return importedModuleHandler;
 });
 
 /**
