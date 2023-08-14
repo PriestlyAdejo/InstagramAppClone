@@ -4,7 +4,7 @@
 	API_INSTAGRAMCLONE_GRAPHQLAPIKEYOUTPUT
 	ENV
 	REGION
-Amplify Params - DO NOT EDIT *//**
+Amplify Params - DO NOT EDIT */ /**
  * @fileoverview
  *
  * This CloudFormation Trigger creates a handler which awaits the other handlers
@@ -19,7 +19,7 @@ const moduleNames = process.env.MODULES.split(',');
 /**
  * The array of imported modules.
  */
-const modules = moduleNames.map((name) => require(`./${name}`));
+const modules = moduleNames.map(async (name) => await import(`./${name}`));
 
 /**
  * This async handler iterates over the given modules and awaits them.
