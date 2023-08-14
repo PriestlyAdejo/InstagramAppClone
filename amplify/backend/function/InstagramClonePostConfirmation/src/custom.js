@@ -6,7 +6,7 @@ const AWS = require('aws-sdk');
 const docClient = new AWS.DynamoDB.DocumentClient();
 
 const env = process.env.ENV;
-const AppSyncId = process.env.GROUP;
+const AppSyncId = process.env.API_INSTAGRAMCLONE_GRAPHQLAPIKEYOUTPUT;
 const TableName = `User-${AppSyncId}-${env}`; // TableName - AppSyncId - Env
 
 const userExists = async (id) => {
@@ -17,7 +17,7 @@ const userExists = async (id) => {
 
   try {
     const response = await docClient.get(params).promise();
-    return !!response;
+    return !!response?.Item;
   } catch (error) {
     console.log('ERROR_GETTING_DB_DATA', error);
     return false;
