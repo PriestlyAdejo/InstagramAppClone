@@ -21,6 +21,9 @@
           "deploymentBucketName": "amplify-instagramclone-staging-221821-deployment",
           "s3Key": "amplify-builds/InstagramClonePostConfirmation-5a4c774f75436d326d30-build.zip"
         }
+      },
+      "api": {
+        "InstagramClone": {}
       }
     }
   }
