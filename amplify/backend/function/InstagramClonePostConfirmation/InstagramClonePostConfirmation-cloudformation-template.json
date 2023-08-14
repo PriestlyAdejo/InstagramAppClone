@@ -55,6 +55,10 @@
     "apiInstagramCloneGraphQLAPIKeyOutput": {
       "Type": "String",
       "Default": "apiInstagramCloneGraphQLAPIKeyOutput"
+    },
+    "authInstagramCloneUserPoolId": {
+      "Type": "String",
+      "Default": "authInstagramCloneUserPoolId"
     }
   },
   "Conditions": {
@@ -116,6 +120,9 @@
             },
             "API_INSTAGRAMCLONE_GRAPHQLAPIKEYOUTPUT": {
               "Ref": "apiInstagramCloneGraphQLAPIKeyOutput"
+            },
+            "AUTH_INSTAGRAMCLONE_USERPOOLID": {
+              "Ref": "authInstagramCloneUserPoolId"
             }
           }
         },
@@ -292,7 +299,7 @@
       ],
       "Type": "AWS::IAM::Policy",
       "Properties": {
-        "PolicyName": "dynamo-db-read-items-policy",
+        "PolicyName": "dynamo-db-access-policy",
         "Roles": [
           {
             "Ref": "LambdaExecutionRole"
@@ -307,30 +314,9 @@
                 "dynamodb:GetItem",
                 "dynamodb:PutItem"
               ],
-              "Resource": [
-                {
-                  "Fn::Sub": [
-                    "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${tablename}",
-                    {
-                      "tablename": {
-                        "Fn::Join": [
-                          "",
-                          [
-                            "User-",
-                            {
-                              "Ref": "apiInstagramCloneGraphQLAPIIdOutput"
-                            },
-                            "-",
-                            {
-                              "Ref": "env"
-                            }
-                          ]
-                        ]
-                      }
-                    }
-                  ]
-                }
-              ]
+              "Resource": {
+                "Fn::Sub": "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/User-${apiInstagramCloneGraphQLAPIIdOutput}-${env}"
+              }
             }
           ]
         }

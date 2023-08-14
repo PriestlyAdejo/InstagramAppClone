@@ -15,19 +15,11 @@ Amplify Params - DO NOT EDIT */ /**
  * The names of modules to load are stored as a comma-delimited string in the
  * `MODULES` env var.
  */
-// const moduleNames = process.env.MODULES.split(',');
+const moduleNames = process.env.MODULES.split(',');
 /**
  * The array of imported modules.
  */
-// const modules = moduleNames.map(async (name) => await import(`./${name}`));
-const moduleNames = process.env.MODULES.split(',');
-const modules = moduleNames.map(async (name) => {
-  const importedModuleHandler = await import(`./${name}.js`); // Already exported so now need to import again
-  if (importedModuleHandler.handler) {
-    return importedModuleHandler.handler;
-  }
-  return importedModuleHandler;
-});
+const modules = moduleNames.map((name) => require(`./${name}`));
 
 /**
  * This async handler iterates over the given modules and awaits them.
@@ -36,17 +28,12 @@ const modules = moduleNames.map(async (name) => {
  * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
  *
  */
-//exports.handler = async (event, context) => {
-/**
- * Instead of naively iterating over all handlers, run them concurrently with
- * `await Promise.all(...)`. This would otherwise just be determined by the
- * order of names in the `MODULES` var.
- */
-//await Promise.all(modules.map((module) => module.handler(event, context)));
-//return event;
-//};
-
-export const handler = async (event, context) => {
-  await Promise.all(modules.map((module) => module(event, context)));
+exports.handler = async (event, context) => {
+  /**
+   * Instead of naively iterating over all handlers, run them concurrently with
+   * `await Promise.all(...)`. This would otherwise just be determined by the
+   * order of names in the `MODULES` var.
+   */
+  await Promise.all(modules.map((module) => module.handler(event, context)));
   return event;
 };
