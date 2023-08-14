@@ -12,5 +12,13 @@
   "triggerTemplate": "PostConfirmation.json.ejs",
   "triggerEventPath": "PostConfirmation.event.json",
   "roleName": "InstagramClonePostConfirmation",
-  "skipEdit": true
+  "skipEdit": true,
+  "permissions": {
+    "api": {
+      "InstagramClone": [
+        "Query",
+        "Mutation"
+      ]
+    }
+  }
 }

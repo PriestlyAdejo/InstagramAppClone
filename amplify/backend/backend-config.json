@@ -67,6 +67,17 @@
   "function": {
     "InstagramClonePostConfirmation": {
       "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
+          ],
+          "category": "api",
+          "resourceName": "InstagramClone"
+        }
+      ],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     }
