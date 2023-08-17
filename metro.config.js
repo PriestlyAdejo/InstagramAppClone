@@ -1,6 +1,6 @@
 const { getDefaultConfig } = require('expo/metro-config');
 const { mergeConfig } = require('@react-native/metro-config');
-
+const { resolver: defaultResolver } = getDefaultConfig.getDefaultValues();
 /**
  * Metro configuration
  * https://facebook.github.io/metro/docs/configuration
@@ -10,6 +10,7 @@ const { mergeConfig } = require('@react-native/metro-config');
 const config = {
   resolver: {
     blacklistRE: /#current-cloud-backend\/.*/,
+    sourceExts: [...defaultResolver.sourceExts, 'cjs'],
   },
   transformer: {
     getTransformOptions: async () => ({
