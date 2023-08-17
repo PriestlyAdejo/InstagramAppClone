@@ -1,12 +1,17 @@
 import { Text, View, FlatList, Image } from 'react-native';
-import user from '../../assets/data/user.json';
 import styles from './styles';
 import Button from '../../components/Button/Button';
 import { useNavigation } from '@react-navigation/native';
 import { ProfileNavigationProp } from '../../types/navigation';
 import { Auth } from 'aws-amplify';
+import { User } from '../../API';
+import { DEFAULT_USER_IMAGE } from '../../config';
 
-const ProfileHeader = () => {
+interface IProfileHeader {
+  user: User;
+}
+
+const ProfileHeader = ({ user }: IProfileHeader) => {
   const navigation = useNavigation<ProfileNavigationProp>();
 
   return (
@@ -14,21 +19,24 @@ const ProfileHeader = () => {
       {/* Header with profile and metrics */}
       <View style={styles.headerRow}>
         {/* Profile Image */}
-        <Image source={{ uri: user.image }} style={styles.avatar} />
+        <Image
+          source={{ uri: user.image || DEFAULT_USER_IMAGE }}
+          style={styles.avatar}
+        />
 
         {/* Posts, followers, following */}
         <View style={styles.numberContainer}>
-          <Text style={styles.numberText}>98</Text>
+          <Text style={styles.numberText}>{user.nofPosts}</Text>
           <Text>Posts</Text>
         </View>
 
         <View style={styles.numberContainer}>
-          <Text style={styles.numberText}>198</Text>
+          <Text style={styles.numberText}>{user.nofFollowers}</Text>
           <Text>Followers</Text>
         </View>
 
         <View style={styles.numberContainer}>
-          <Text style={styles.numberText}>298</Text>
+          <Text style={styles.numberText}>{user.nofFollowings}</Text>
           <Text>Following</Text>
         </View>
       </View>

@@ -1,6 +1,6 @@
 const { getDefaultConfig } = require('expo/metro-config');
 const { mergeConfig } = require('@react-native/metro-config');
-const { resolver: defaultResolver } = getDefaultConfig.getDefaultValues();
+const { resolver: defaultResolver } = getDefaultConfig(__dirname);
 /**
  * Metro configuration
  * https://facebook.github.io/metro/docs/configuration

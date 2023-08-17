@@ -14,10 +14,12 @@ import { HubCallback } from '@aws-amplify/core';
 type UserType = CognitoUser | null | undefined;
 type AuthContextType = {
   user: UserType;
+  userId: string;
 };
 
 const AuthContext = createContext<AuthContextType>({
   user: undefined,
+  userId: '',
 });
 
 const AuthContextProvider = ({ children }: { children: ReactNode }) => {
@@ -53,7 +55,9 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ user, userId: user?.attributes?.sub }}>
+      {children}
+    </AuthContext.Provider>
   );
 };
 
