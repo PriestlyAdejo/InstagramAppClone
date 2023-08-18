@@ -9,14 +9,14 @@ import {
 import user from '../../assets/data/user.json';
 import { useState } from 'react';
 import { useForm, Controller, Control } from 'react-hook-form';
-import { IUser } from '../../types/models';
 import colors from '../../theme/colors';
+import { User } from '../../API';
 
 const URL_REGEX =
   /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/i;
 
 type IEditableUserField = 'name' | 'username' | 'website' | 'bio';
-type IEditableUser = Pick<IUser, IEditableUserField>;
+type IEditableUser = Pick<User, IEditableUserField>;
 
 interface ICustomInput {
   control: Control<IEditableUser, object>;
@@ -47,7 +47,7 @@ const CustomInput = ({
             <Text style={styles.label}>{label}</Text>
             <View style={{ flex: 1 }}>
               <TextInput
-                value={value}
+                value={value || ''}
                 onChangeText={onChange}
                 onBlur={onBlur}
                 placeholder={label}
@@ -72,11 +72,7 @@ const CustomInput = ({
 
 const EditProfileScreen = () => {
   const [selectedPhoto, setSelectedPhoto] = useState<null | Asset>(null);
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<IEditableUser>({
+  const { control, handleSubmit } = useForm<IEditableUser>({
     defaultValues: {
       name: user.name,
       username: user.username,

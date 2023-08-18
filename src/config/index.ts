@@ -1,2 +1,2 @@
 export const DEFAULT_USER_IMAGE =
-  'https://notjustdev-dumm.s3.us-east-2.amazonaws.com/images/default-user-image.png';
+  'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/2048px-Default_pfp.svg.png';

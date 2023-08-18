@@ -24,33 +24,38 @@ const ProfileScreen = () => {
 
   const userId = route.params?.userId || authUserId;
 
-  const { data, loading, error } = useQuery<
+  const { data, loading, error, refetch } = useQuery<
     GetUserQuery,
     GetUserQueryVariables
   >(getUser, {
     variables: { id: userId },
   });
 
+  console.log(loading);
   const user = data?.getUser;
 
-  if (loading) {
-    return <ActivityIndicator />;
-  }
   if (error || !user) {
     return (
       <ApiErrorMessage
         title="Error fetching the user"
         message={error?.message || 'User not found'}
+        onRetry={refetch}
       />
     );
   }
 
   navigation.setOptions({ title: `${user.name}'s Profile` });
 
+  if (loading === true) {
+    return <ActivityIndicator />;
+  }
+
   return (
     <FeedGridView
       data={user.Posts?.items || []}
       ListHeaderComponent={() => <ProfileHeader user={user} />}
+      refetch={refetch}
+      loading
     />
   );
 };

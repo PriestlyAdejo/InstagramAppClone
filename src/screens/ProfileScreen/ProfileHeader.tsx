@@ -6,12 +6,14 @@ import { ProfileNavigationProp } from '../../types/navigation';
 import { Auth } from 'aws-amplify';
 import { User } from '../../API';
 import { DEFAULT_USER_IMAGE } from '../../config';
+import { useAuthContext } from '../../Context/AuthContext';
 
 interface IProfileHeader {
   user: User;
 }
 
 const ProfileHeader = ({ user }: IProfileHeader) => {
+  const { userId } = useAuthContext();
   const navigation = useNavigation<ProfileNavigationProp>();
 
   return (
@@ -45,14 +47,16 @@ const ProfileHeader = ({ user }: IProfileHeader) => {
       <Text style={styles.bio}>{user.bio}</Text>
 
       {/* Buttons */}
-      <View style={{ flexDirection: 'row' }}>
-        <Button
-          text="Edit Profile"
-          onPress={() => navigation.navigate('Edit Profile')}
-          inline
-        />
-        <Button text="Sign Out" onPress={() => Auth.signOut()} inline />
-      </View>
+      {userId === user.id && (
+        <View style={{ flexDirection: 'row' }}>
+          <Button
+            text="Edit Profile"
+            onPress={() => navigation.navigate('Edit Profile')}
+            inline
+          />
+          <Button text="Sign Out" onPress={() => Auth.signOut()} inline />
+        </View>
+      )}
     </View>
   );
 };
