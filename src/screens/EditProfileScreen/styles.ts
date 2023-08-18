@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
   input: {
     borderColor: colors.border,
     borderBottomWidth: 1,
+    minheight: 50,
   },
 });
 
