@@ -18,6 +18,12 @@ const styles = StyleSheet.create({
     fontWeight: fonts.weight.semi,
     margin: 10,
   },
+  textButtonDanger: {
+    color: colors.error,
+    fontSize: fonts.size.md,
+    fontWeight: fonts.weight.semi,
+    margin: 10,
+  },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',

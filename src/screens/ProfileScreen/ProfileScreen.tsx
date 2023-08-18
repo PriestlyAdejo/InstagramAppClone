@@ -46,7 +46,7 @@ const ProfileScreen = () => {
 
   navigation.setOptions({ title: `${user.name}'s Profile` });
 
-  if (loading === true) {
+  if (loading == true) {
     return <ActivityIndicator />;
   }
 

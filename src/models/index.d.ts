@@ -1,6 +1,6 @@
 import { ModelInit, MutableModel, __modelMeta__, ManagedIdentifier } from "@aws-amplify/datastore";
 // @ts-ignore
-import { LazyLoading, LazyLoadingDisabled, AsyncCollection } from "@aws-amplify/datastore";
+import { LazyLoading, LazyLoadingDisabled, AsyncCollection, AsyncItem } from "@aws-amplify/datastore";
 
 
 
@@ -62,13 +62,14 @@ type EagerPost = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly descriptio?: string | null;
+  readonly description?: string | null;
   readonly image?: string | null;
   readonly images?: string[] | null;
   readonly video?: string | null;
   readonly nofComments: number;
   readonly nofLikes: number;
   readonly userID: string;
+  readonly User?: User | null;
   readonly Likes?: (Like | null)[] | null;
   readonly Comments?: (Comment | null)[] | null;
   readonly createdAt?: string | null;
@@ -81,13 +82,14 @@ type LazyPost = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly descriptio?: string | null;
+  readonly description?: string | null;
   readonly image?: string | null;
   readonly images?: string[] | null;
   readonly video?: string | null;
   readonly nofComments: number;
   readonly nofLikes: number;
   readonly userID: string;
+  readonly User: AsyncItem<User | undefined>;
   readonly Likes: AsyncCollection<Like>;
   readonly Comments: AsyncCollection<Comment>;
   readonly createdAt?: string | null;
@@ -108,6 +110,8 @@ type EagerLike = {
   readonly id: string;
   readonly userID: string;
   readonly postID: string;
+  readonly User?: User | null;
+  readonly Post?: Post | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -120,6 +124,8 @@ type LazyLike = {
   readonly id: string;
   readonly userID: string;
   readonly postID: string;
+  readonly User: AsyncItem<User | undefined>;
+  readonly Post: AsyncItem<Post | undefined>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -139,6 +145,8 @@ type EagerComment = {
   readonly comment: string;
   readonly userID: string;
   readonly postID: string;
+  readonly User?: User | null;
+  readonly Post?: Post | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -152,6 +160,8 @@ type LazyComment = {
   readonly comment: string;
   readonly userID: string;
   readonly postID: string;
+  readonly User: AsyncItem<User | undefined>;
+  readonly Post: AsyncItem<Post | undefined>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }

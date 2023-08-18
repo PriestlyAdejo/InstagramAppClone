@@ -22,7 +22,9 @@ const UserSearchScreen = () => {
     );
   }
 
-  const users = data?.listUsers?.items || [];
+  const users = (data?.listUsers?.items || []).filter(
+    (user) => user && !user?._deleted
+  );
 
   return (
     <FlatList

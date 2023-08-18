@@ -22,3 +22,28 @@ export const getUser = gql`
     }
   }
 `;
+export const usersByUsername = gql`
+  query UsersByUsername(
+    $username: String!
+    $sortDirection: ModelSortDirection
+    $filter: ModelUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    usersByUsername(
+      username: $username
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        username
+      }
+      nextToken
+      startedAt
+      __typename
+    }
+  }
+`;
