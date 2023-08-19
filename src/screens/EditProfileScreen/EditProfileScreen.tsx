@@ -66,7 +66,9 @@ const EditProfileScreen = () => {
         input: { id: userId, ...formData, _version: user?._version },
       },
     });
-    navigation.goBack();
+    if (navigation.canGoBack()) {
+      navigation.goBack();
+    }
   };
 
   const confirmDelete = () => {
@@ -120,7 +122,7 @@ const EditProfileScreen = () => {
         return 'Failed to fetch username';
       }
       const users = response.data?.usersByUsername?.items;
-      if (users && users?.length > 0) {
+      if (users && users?.length > 0 && users?.[0]?.id !== userId) {
         return 'Username is already taken';
       }
       console.log(response);

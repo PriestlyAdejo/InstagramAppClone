@@ -16,6 +16,7 @@ const ProfileHeader = ({ user }: IProfileHeader) => {
   const { userId } = useAuthContext();
   const navigation = useNavigation<ProfileNavigationProp>();
 
+  navigation.setOptions({ title: user?.username || 'Profile' });
   return (
     <View style={styles.root}>
       {/* Header with profile and metrics */}
