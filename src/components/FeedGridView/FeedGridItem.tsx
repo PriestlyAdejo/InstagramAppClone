@@ -11,13 +11,14 @@ const FeedGridItem = ({ post }: { post: Post }) => {
         flex: 1,
         aspectRatio: 1,
         padding: 1,
-        maxWidth: '33.33333333333333%',
+        minWidth: '33.33333333333333%',
       }}
     >
       <Image
         source={{ uri: post.image || post.images?.[0] }}
         style={{ flex: 1 }}
       />
+
       {post.images && (
         <MaterialIcons
           name="collections"

@@ -10,6 +10,8 @@ import {
 } from 'expo-camera/build/Camera.types';
 import styles from './styles';
 import colors from '../../theme/colors';
+import { useNavigation } from '@react-navigation/native';
+import { CameraNavigationProp } from '../../types/navigation';
 
 const flashModes = [
   FlashMode.off,
@@ -25,12 +27,13 @@ const flashModeToIcon = {
   [FlashMode.torch]: 'highlight',
 };
 
-const PostUploadScreen = () => {
+const CameraScreen = () => {
   const [hasPermissions, setHasPermissions] = useState<boolean | null>(null);
   const [cameraType, setCameraType] = useState(CameraType.back);
   const [flash, setFlash] = useState(FlashMode.off);
   const [isCameraReady, setIsCameraReady] = useState(true);
   const [isRecording, setIsRecording] = useState(false);
+  const navigation = useNavigation<CameraNavigationProp>();
 
   const camera = useRef<Camera>(null);
 
@@ -108,6 +111,12 @@ const PostUploadScreen = () => {
     }
   };
 
+  const navigateToCreateScreen = () => {
+    navigation.navigate('Create', {
+      image: 'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/images/4.jpg',
+    });
+  };
+
   if (hasPermissions === null) {
     return <Text>Loading...</Text>;
   }
@@ -167,9 +176,19 @@ const PostUploadScreen = () => {
             color={colors.white}
           />
         </Pressable>
+
+        {isCameraReady && (
+          <Pressable onPress={navigateToCreateScreen}>
+            <MaterialIcons
+              name="arrow-forward-ios"
+              size={30}
+              color={colors.white}
+            />
+          </Pressable>
+        )}
       </View>
     </View>
   );
 };
 
-export default PostUploadScreen;
+export default CameraScreen;
