@@ -18,6 +18,10 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
   },
+  content: {
+    width: '100%',
+    aspectRatio: 1,
+  },
 });
 
 export default styles;
