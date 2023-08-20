@@ -90,7 +90,7 @@ const FeedPost = ({ post, isVisible }: IFeedPost) => {
           {post.User?.username}
         </Text>
 
-        <PostMenu />
+        <PostMenu post={post} />
       </View>
 
       {/* Content */}
