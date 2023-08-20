@@ -1,6 +1,6 @@
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   post: {},
@@ -51,6 +51,11 @@ const styles = StyleSheet.create({
     color: colors.black,
     lineHeight: 18,
     flex: 1,
+  },
+  optionText: {
+    textAlign: 'center',
+    fontSize: 20,
+    padding: 10,
   },
 });
 

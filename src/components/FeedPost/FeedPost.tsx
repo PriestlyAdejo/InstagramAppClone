@@ -1,7 +1,6 @@
 /* eslint-disable react/react-in-jsx-scope */
-import { View, Text, Image, Pressable } from 'react-native';
+import { View, Text, Image, Pressable, Alert } from 'react-native';
 import colors from '../../theme/colors';
-import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
@@ -15,6 +14,7 @@ import { useNavigation } from '@react-navigation/native';
 import { FeedNavigationProp } from '../../types/navigation';
 import { Post } from '../../API';
 import { DEFAULT_USER_IMAGE } from '../../config';
+import PostMenu from './PostMenu';
 
 interface IFeedPost {
   post: Post;
@@ -86,15 +86,11 @@ const FeedPost = ({ post, isVisible }: IFeedPost) => {
             style={styles.userAvatar}
           />
         </DoublePressable>
-
         <Text onPress={navigateToUser} style={styles.userName}>
           {post.User?.username}
         </Text>
-        <Entypo
-          name="dots-three-horizontal"
-          size={16}
-          style={styles.threeDots}
-        />
+
+        <PostMenu />
       </View>
 
       {/* Content */}
