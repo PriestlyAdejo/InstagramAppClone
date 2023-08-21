@@ -24,13 +24,15 @@ import {
   LikesForPostByUserQuery,
   LikesForPostByUserQueryVariables,
   Post,
+  UpdatePostMutation,
+  UpdatePostMutationVariables,
   UsersByUsernameQuery,
   UsersByUsernameQueryVariables,
 } from '../../API';
 import { DEFAULT_USER_IMAGE } from '../../config';
 import PostMenu from './PostMenu';
 import { useMutation, useQuery } from '@apollo/client';
-import { createLike } from './mutations';
+import { createLike, updatePost } from './mutations';
 import { useAuthContext } from '../../Context/AuthContext';
 import { LikesForPostByUser, deleteLike, getUser } from './queries';
 
@@ -55,6 +57,11 @@ const FeedPost = ({ post, isVisible }: IFeedPost) => {
     DeleteLikeMutationVariables
   >(deleteLike);
 
+  const [doUpdatePost] = useMutation<
+    UpdatePostMutation,
+    UpdatePostMutationVariables
+  >(updatePost);
+
   const { data: usersLikeData } = useQuery<
     LikesForPostByUserQuery,
     LikesForPostByUserQueryVariables
@@ -68,6 +75,18 @@ const FeedPost = ({ post, isVisible }: IFeedPost) => {
   const userLike = postLikes?.[0]; // Should be the owner of the like
 
   const navigation = useNavigation<FeedNavigationProp>();
+
+  const incrementNofLikes = (amount: 1 | -1) => {
+    doUpdatePost({
+      variables: {
+        input: {
+          id: post.id,
+          _version: post._version,
+          nofLikes: post.nofLikes + amount,
+        },
+      },
+    });
+  };
 
   const navigateToUser = () => {
     if (post.User) {
@@ -92,8 +111,10 @@ const FeedPost = ({ post, isVisible }: IFeedPost) => {
       doDeleteLike({
         variables: { input: { id: userLike.id, _version: userLike._version } },
       });
+      incrementNofLikes(-1);
     } else {
       doCreateLike();
+      incrementNofLikes(1);
     }
   };
 
@@ -188,7 +209,8 @@ const FeedPost = ({ post, isVisible }: IFeedPost) => {
             {postLikes.length > 1 && (
               <>
                 {' '}
-                and <Text style={styles.bold}>{post.nofLikes - 1} others</Text>
+                and{' '}
+                <Text style={styles.bold}>{postLikes.length - 1} others</Text>
               </>
             )}
           </Text>

@@ -20,7 +20,7 @@ import UserListItem from '../../components/UserListItem/UserListItem';
 const PostLikesScreen = () => {
   const route = useRoute<PostLikesRouteProp>();
   const { id } = route.params;
-  const { data, loading, error } = useQuery<
+  const { data, loading, error, refetch } = useQuery<
     LikesForPostByUserQuery,
     LikesForPostByUserQueryVariables
   >(LikesForPostByUser, { variables: { postID: id } });
@@ -44,10 +44,10 @@ const PostLikesScreen = () => {
     <FlatList
       data={likes}
       renderItem={({ item }) => <UserListItem user={item?.User} />}
+      refreshing={loading}
+      onRefresh={refetch}
     />
   );
 };
 
 export default PostLikesScreen;
-
-const styles = StyleSheet.create({});
