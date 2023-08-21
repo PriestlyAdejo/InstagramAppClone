@@ -1133,15 +1133,15 @@ export const commentsByUserID = /* GraphQL */ `
     }
   }
 `;
-export const commentsByPostID = /* GraphQL */ `
-  query CommentsByPostID(
+export const commentsByPost = /* GraphQL */ `
+  query CommentsByPost(
     $postID: ID!
     $sortDirection: ModelSortDirection
     $filter: ModelCommentFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    commentsByPostID(
+    commentsByPost(
       postID: $postID
       sortDirection: $sortDirection
       filter: $filter
