@@ -12,9 +12,25 @@ import Carousel from '../Carousel/Carousel';
 import VideoPlayer from '../VideoPlayer/VideoPlayer';
 import { useNavigation } from '@react-navigation/native';
 import { FeedNavigationProp } from '../../types/navigation';
-import { Post } from '../../API';
+import {
+  CreateLikeMutation,
+  CreateLikeMutationVariables,
+  DeleteLikeMutation,
+  DeleteLikeMutationVariables,
+  LikesByUserIDQuery,
+  LikesByUserIDQueryVariables,
+  LikesForPostByUserQuery,
+  LikesForPostByUserQueryVariables,
+  Post,
+  UsersByUsernameQuery,
+  UsersByUsernameQueryVariables,
+} from '../../API';
 import { DEFAULT_USER_IMAGE } from '../../config';
 import PostMenu from './PostMenu';
+import { useMutation, useQuery } from '@apollo/client';
+import { createLike } from './mutations';
+import { useAuthContext } from '../../Context/AuthContext';
+import { LikesForPostByUser, deleteLike } from './queries';
 
 interface IFeedPost {
   post: Post;
@@ -23,7 +39,30 @@ interface IFeedPost {
 
 const FeedPost = ({ post, isVisible }: IFeedPost) => {
   const [isDescExpanded, setIsDescExpanded] = useState(false);
-  const [isLiked, setIsLiked] = useState(true);
+  const { userId } = useAuthContext();
+  const [doCreateLike] = useMutation<
+    CreateLikeMutation,
+    CreateLikeMutationVariables
+  >(createLike, {
+    variables: { input: { userID: userId, postID: post.id } },
+    refetchQueries: ['LikesForPostByUser'],
+  });
+
+  const [doDeleteLike] = useMutation<
+    DeleteLikeMutation,
+    DeleteLikeMutationVariables
+  >(deleteLike);
+
+  const { data: usersLikeData } = useQuery<
+    LikesForPostByUserQuery,
+    LikesForPostByUserQueryVariables
+  >(LikesForPostByUser, {
+    variables: { postID: post.id, userID: { eq: userId } },
+  });
+
+  const userLike = (usersLikeData?.LikesForPostByUser?.items || []).filter(
+    (like) => !like?._deleted
+  )?.[0];
 
   const navigation = useNavigation<FeedNavigationProp>();
 
@@ -42,7 +81,14 @@ const FeedPost = ({ post, isVisible }: IFeedPost) => {
   };
 
   const toggleLiked = () => {
-    setIsLiked((v) => !v);
+    if (userLike) {
+      doDeleteLike({
+        variables: { input: { id: userLike.id, _version: userLike._version } },
+      });
+    } else {
+      doCreateLike();
+    }
+    console.log(usersLikeData);
   };
 
   let lastTap = 0;
@@ -101,10 +147,10 @@ const FeedPost = ({ post, isVisible }: IFeedPost) => {
         <View style={styles.iconContainer}>
           <Pressable onPress={toggleLiked}>
             <AntDesign
-              name={isLiked ? 'heart' : 'hearto'}
+              name={userLike ? 'heart' : 'hearto'}
               size={24}
               style={styles.icon}
-              color={isLiked ? colors.accent : colors.black}
+              color={userLike ? colors.accent : colors.black}
             />
           </Pressable>
           <Ionicons
