@@ -1,5 +1,5 @@
 /* eslint-disable react/react-in-jsx-scope */
-import { View, Text, Image, Pressable, Alert } from 'react-native';
+import { View, Text, Image, Pressable } from 'react-native';
 import colors from '../../theme/colors';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -12,29 +12,11 @@ import Carousel from '../Carousel/Carousel';
 import VideoPlayer from '../VideoPlayer/VideoPlayer';
 import { useNavigation } from '@react-navigation/native';
 import { FeedNavigationProp } from '../../types/navigation';
-import {
-  CreateLikeMutation,
-  CreateLikeMutationVariables,
-  DeleteLikeMutation,
-  DeleteLikeMutationVariables,
-  GetUserQuery,
-  GetUserQueryVariables,
-  LikesByUserIDQuery,
-  LikesByUserIDQueryVariables,
-  LikesForPostByUserQuery,
-  LikesForPostByUserQueryVariables,
-  Post,
-  UpdatePostMutation,
-  UpdatePostMutationVariables,
-  UsersByUsernameQuery,
-  UsersByUsernameQueryVariables,
-} from '../../API';
+import { Post } from '../../API';
 import { DEFAULT_USER_IMAGE } from '../../config';
 import PostMenu from './PostMenu';
-import { useMutation, useQuery } from '@apollo/client';
-import { createLike, updatePost } from './mutations';
 import { useAuthContext } from '../../Context/AuthContext';
-import { LikesForPostByUser, deleteLike, getUser } from './queries';
+import useLikeService from '../../services/LikeService/LikeService';
 
 interface IFeedPost {
   post: Post;
@@ -44,49 +26,9 @@ interface IFeedPost {
 const FeedPost = ({ post, isVisible }: IFeedPost) => {
   const [isDescExpanded, setIsDescExpanded] = useState(false);
   const { userId } = useAuthContext();
-  const [doCreateLike] = useMutation<
-    CreateLikeMutation,
-    CreateLikeMutationVariables
-  >(createLike, {
-    variables: { input: { userID: userId, postID: post.id } },
-    refetchQueries: ['LikesForPostByUser'],
-  });
-
-  const [doDeleteLike] = useMutation<
-    DeleteLikeMutation,
-    DeleteLikeMutationVariables
-  >(deleteLike);
-
-  const [doUpdatePost] = useMutation<
-    UpdatePostMutation,
-    UpdatePostMutationVariables
-  >(updatePost);
-
-  const { data: usersLikeData } = useQuery<
-    LikesForPostByUserQuery,
-    LikesForPostByUserQueryVariables
-  >(LikesForPostByUser, {
-    variables: { postID: post.id, userID: { eq: userId } },
-  });
-
-  const postLikes = (usersLikeData?.LikesForPostByUser?.items || []).filter(
-    (like) => !like?._deleted
-  );
-  const userLike = postLikes?.[0]; // Should be the owner of the like
+  const { toggleLiked, isLiked, postLikes } = useLikeService(post);
 
   const navigation = useNavigation<FeedNavigationProp>();
-
-  const incrementNofLikes = (amount: 1 | -1) => {
-    doUpdatePost({
-      variables: {
-        input: {
-          id: post.id,
-          _version: post._version,
-          nofLikes: post.nofLikes + amount,
-        },
-      },
-    });
-  };
 
   const navigateToUser = () => {
     if (post.User) {
@@ -104,18 +46,6 @@ const FeedPost = ({ post, isVisible }: IFeedPost) => {
 
   const toggleDescExpanded = () => {
     setIsDescExpanded((v) => !v);
-  };
-
-  const toggleLiked = () => {
-    if (userLike) {
-      doDeleteLike({
-        variables: { input: { id: userLike.id, _version: userLike._version } },
-      });
-      incrementNofLikes(-1);
-    } else {
-      doCreateLike();
-      incrementNofLikes(1);
-    }
   };
 
   let lastTap = 0;
@@ -174,10 +104,10 @@ const FeedPost = ({ post, isVisible }: IFeedPost) => {
         <View style={styles.iconContainer}>
           <Pressable onPress={toggleLiked}>
             <AntDesign
-              name={userLike ? 'heart' : 'hearto'}
+              name={isLiked ? 'heart' : 'hearto'}
               size={24}
               style={styles.icon}
-              color={userLike ? colors.accent : colors.black}
+              color={isLiked ? colors.accent : colors.black}
             />
           </Pressable>
           <Ionicons
