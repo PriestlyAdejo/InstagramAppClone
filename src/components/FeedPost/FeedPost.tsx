@@ -17,6 +17,8 @@ import {
   CreateLikeMutationVariables,
   DeleteLikeMutation,
   DeleteLikeMutationVariables,
+  GetUserQuery,
+  GetUserQueryVariables,
   LikesByUserIDQuery,
   LikesByUserIDQueryVariables,
   LikesForPostByUserQuery,
@@ -30,7 +32,7 @@ import PostMenu from './PostMenu';
 import { useMutation, useQuery } from '@apollo/client';
 import { createLike } from './mutations';
 import { useAuthContext } from '../../Context/AuthContext';
-import { LikesForPostByUser, deleteLike } from './queries';
+import { LikesForPostByUser, deleteLike, getUser } from './queries';
 
 interface IFeedPost {
   post: Post;
@@ -60,9 +62,10 @@ const FeedPost = ({ post, isVisible }: IFeedPost) => {
     variables: { postID: post.id, userID: { eq: userId } },
   });
 
-  const userLike = (usersLikeData?.LikesForPostByUser?.items || []).filter(
+  const postLikes = (usersLikeData?.LikesForPostByUser?.items || []).filter(
     (like) => !like?._deleted
-  )?.[0];
+  );
+  const userLike = postLikes?.[0]; // Should be the owner of the like
 
   const navigation = useNavigation<FeedNavigationProp>();
 
@@ -70,6 +73,10 @@ const FeedPost = ({ post, isVisible }: IFeedPost) => {
     if (post.User) {
       navigation.navigate('UserProfile', { userId: post.User?.id });
     }
+  };
+
+  const navigateToLikes = () => {
+    navigation.navigate('PostLikes', { id: post.id });
   };
 
   const navigateToComments = () => {
@@ -88,7 +95,6 @@ const FeedPost = ({ post, isVisible }: IFeedPost) => {
     } else {
       doCreateLike();
     }
-    console.log(usersLikeData);
   };
 
   let lastTap = 0;
@@ -173,13 +179,18 @@ const FeedPost = ({ post, isVisible }: IFeedPost) => {
           />
         </View>
 
-        {post.Comments[0] && (
-          <Text style={styles.text}>
-            Liked by
-            <Text style={styles.bold}>
-              {post.Comments[0].user.username}
-            </Text>{' '}
-            and <Text style={styles.bold}>{post.nofLikes} others</Text>
+        {postLikes.length === 0 ? (
+          <Text>Be the first to like the post</Text>
+        ) : (
+          <Text style={styles.text} onPress={navigateToLikes}>
+            Liked by{' '}
+            <Text style={styles.bold}>{postLikes[0]?.User?.username}</Text>
+            {postLikes.length > 1 && (
+              <>
+                {' '}
+                and <Text style={styles.bold}>{post.nofLikes - 1} others</Text>
+              </>
+            )}
           </Text>
         )}
 

@@ -40,33 +40,3 @@ export const LikesForPostByUser = gql`
     }
   }
 `;
-
-export const deleteLike = gql`
-  mutation DeleteLike(
-    $input: DeleteLikeInput!
-    $condition: ModelLikeConditionInput
-  ) {
-    deleteLike(input: $input, condition: $condition) {
-      id
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-
-export const getUser = gql`
-  query GetUser($id: ID!) {
-    getUser(id: $id) {
-      id
-      name
-      username
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      __typename
-    }
-  }
-`;
