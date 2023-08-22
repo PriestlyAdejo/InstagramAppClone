@@ -457,6 +457,13 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": true,
+                    "attributes": []
+                },
                 "comment": {
                     "name": "comment",
                     "isArray": false,
@@ -508,14 +515,6 @@ export const schema = {
                         ]
                     }
                 },
-                "createdAt": {
-                    "name": "createdAt",
-                    "isArray": false,
-                    "type": "AWSDateTime",
-                    "isRequired": false,
-                    "attributes": [],
-                    "isReadOnly": true
-                },
                 "updatedAt": {
                     "name": "updatedAt",
                     "isArray": false,
@@ -547,7 +546,8 @@ export const schema = {
                         "name": "byPost",
                         "queryField": "commentsByPost",
                         "fields": [
-                            "postID"
+                            "postID",
+                            "createdAt"
                         ]
                     }
                 },
@@ -573,5 +573,5 @@ export const schema = {
     "enums": {},
     "nonModels": {},
     "codegenVersion": "3.4.4",
-    "version": "4399b72628b4a4cb9b216e51d73f8591"
+    "version": "ab1626efc24874e04730667ca08571bb"
 };

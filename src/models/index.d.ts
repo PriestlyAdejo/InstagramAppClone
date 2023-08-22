@@ -139,30 +139,30 @@ export declare const Like: (new (init: ModelInit<Like>) => Like) & {
 type EagerComment = {
   readonly [__modelMeta__]: {
     identifier: ManagedIdentifier<Comment, 'id'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
+    readOnlyFields: 'updatedAt';
   };
   readonly id: string;
+  readonly createdAt: string;
   readonly comment: string;
   readonly userID: string;
   readonly postID: string;
   readonly User?: User | null;
   readonly Post?: Post | null;
-  readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
 
 type LazyComment = {
   readonly [__modelMeta__]: {
     identifier: ManagedIdentifier<Comment, 'id'>;
-    readOnlyFields: 'createdAt' | 'updatedAt';
+    readOnlyFields: 'updatedAt';
   };
   readonly id: string;
+  readonly createdAt: string;
   readonly comment: string;
   readonly userID: string;
   readonly postID: string;
   readonly User: AsyncItem<User | undefined>;
   readonly Post: AsyncItem<Post | undefined>;
-  readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
 

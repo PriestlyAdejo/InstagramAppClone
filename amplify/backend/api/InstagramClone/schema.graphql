@@ -44,9 +44,15 @@ type Like @model @auth(rules: [{ allow: public }]) {
 
 type Comment @model @auth(rules: [{ allow: public }]) {
   id: ID!
+  createdAt: AWSDateTime!
   comment: String!
   userID: ID! @index(name: "byUser")
-  postID: ID! @index(name: "byPost", queryField: "commentsByPost")
+  postID: ID!
+    @index(
+      name: "byPost"
+      queryField: "commentsByPost"
+      sortKeyFields: ["createdAt"]
+    )
   User: User @belongsTo(fields: ["userID"])
   Post: Post @belongsTo(fields: ["userID"])
 }

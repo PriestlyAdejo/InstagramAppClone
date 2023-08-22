@@ -39,10 +39,10 @@ export const getUser = /* GraphQL */ `
       Comments {
         items {
           id
+          createdAt
           comment
           userID
           postID
-          createdAt
           updatedAt
           _version
           _deleted
@@ -293,10 +293,10 @@ export const getPost = /* GraphQL */ `
       Comments {
         items {
           id
+          createdAt
           comment
           userID
           postID
-          createdAt
           updatedAt
           _version
           _deleted
@@ -853,6 +853,7 @@ export const getComment = /* GraphQL */ `
   query GetComment($id: ID!) {
     getComment(id: $id) {
       id
+      createdAt
       comment
       userID
       postID
@@ -933,7 +934,6 @@ export const getComment = /* GraphQL */ `
         _lastChangedAt
         __typename
       }
-      createdAt
       updatedAt
       _version
       _deleted
@@ -951,6 +951,7 @@ export const listComments = /* GraphQL */ `
     listComments(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
+        createdAt
         comment
         userID
         postID
@@ -988,7 +989,6 @@ export const listComments = /* GraphQL */ `
           _lastChangedAt
           __typename
         }
-        createdAt
         updatedAt
         _version
         _deleted
@@ -1016,6 +1016,7 @@ export const syncComments = /* GraphQL */ `
     ) {
       items {
         id
+        createdAt
         comment
         userID
         postID
@@ -1053,7 +1054,6 @@ export const syncComments = /* GraphQL */ `
           _lastChangedAt
           __typename
         }
-        createdAt
         updatedAt
         _version
         _deleted
@@ -1083,6 +1083,7 @@ export const commentsByUserID = /* GraphQL */ `
     ) {
       items {
         id
+        createdAt
         comment
         userID
         postID
@@ -1120,7 +1121,6 @@ export const commentsByUserID = /* GraphQL */ `
           _lastChangedAt
           __typename
         }
-        createdAt
         updatedAt
         _version
         _deleted
@@ -1136,6 +1136,7 @@ export const commentsByUserID = /* GraphQL */ `
 export const commentsByPost = /* GraphQL */ `
   query CommentsByPost(
     $postID: ID!
+    $createdAt: ModelStringKeyConditionInput
     $sortDirection: ModelSortDirection
     $filter: ModelCommentFilterInput
     $limit: Int
@@ -1143,6 +1144,7 @@ export const commentsByPost = /* GraphQL */ `
   ) {
     commentsByPost(
       postID: $postID
+      createdAt: $createdAt
       sortDirection: $sortDirection
       filter: $filter
       limit: $limit
@@ -1150,6 +1152,7 @@ export const commentsByPost = /* GraphQL */ `
     ) {
       items {
         id
+        createdAt
         comment
         userID
         postID
@@ -1187,7 +1190,6 @@ export const commentsByPost = /* GraphQL */ `
           _lastChangedAt
           __typename
         }
-        createdAt
         updatedAt
         _version
         _deleted

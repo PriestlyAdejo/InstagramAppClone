@@ -39,10 +39,10 @@ export const onCreateUser = /* GraphQL */ `
       Comments {
         items {
           id
+          createdAt
           comment
           userID
           postID
-          createdAt
           updatedAt
           _version
           _deleted
@@ -115,10 +115,10 @@ export const onUpdateUser = /* GraphQL */ `
       Comments {
         items {
           id
+          createdAt
           comment
           userID
           postID
-          createdAt
           updatedAt
           _version
           _deleted
@@ -191,10 +191,10 @@ export const onDeleteUser = /* GraphQL */ `
       Comments {
         items {
           id
+          createdAt
           comment
           userID
           postID
-          createdAt
           updatedAt
           _version
           _deleted
@@ -293,10 +293,10 @@ export const onCreatePost = /* GraphQL */ `
       Comments {
         items {
           id
+          createdAt
           comment
           userID
           postID
-          createdAt
           updatedAt
           _version
           _deleted
@@ -379,10 +379,10 @@ export const onUpdatePost = /* GraphQL */ `
       Comments {
         items {
           id
+          createdAt
           comment
           userID
           postID
-          createdAt
           updatedAt
           _version
           _deleted
@@ -465,10 +465,10 @@ export const onDeletePost = /* GraphQL */ `
       Comments {
         items {
           id
+          createdAt
           comment
           userID
           postID
-          createdAt
           updatedAt
           _version
           _deleted
@@ -768,6 +768,7 @@ export const onCreateComment = /* GraphQL */ `
   subscription OnCreateComment($filter: ModelSubscriptionCommentFilterInput) {
     onCreateComment(filter: $filter) {
       id
+      createdAt
       comment
       userID
       postID
@@ -848,7 +849,6 @@ export const onCreateComment = /* GraphQL */ `
         _lastChangedAt
         __typename
       }
-      createdAt
       updatedAt
       _version
       _deleted
@@ -861,6 +861,7 @@ export const onUpdateComment = /* GraphQL */ `
   subscription OnUpdateComment($filter: ModelSubscriptionCommentFilterInput) {
     onUpdateComment(filter: $filter) {
       id
+      createdAt
       comment
       userID
       postID
@@ -941,7 +942,6 @@ export const onUpdateComment = /* GraphQL */ `
         _lastChangedAt
         __typename
       }
-      createdAt
       updatedAt
       _version
       _deleted
@@ -954,6 +954,7 @@ export const onDeleteComment = /* GraphQL */ `
   subscription OnDeleteComment($filter: ModelSubscriptionCommentFilterInput) {
     onDeleteComment(filter: $filter) {
       id
+      createdAt
       comment
       userID
       postID
@@ -1034,7 +1035,6 @@ export const onDeleteComment = /* GraphQL */ `
         _lastChangedAt
         __typename
       }
-      createdAt
       updatedAt
       _version
       _deleted

@@ -7,7 +7,11 @@ import { useRoute } from '@react-navigation/native';
 import { CommentsRouteProp } from '../../types/navigation';
 import { useQuery } from '@apollo/client';
 import { commentsByPost } from './queries';
-import { CommentsByPostQuery, CommentsByPostQueryVariables } from '../../API';
+import {
+  CommentsByPostQuery,
+  CommentsByPostQueryVariables,
+  ModelSortDirection,
+} from '../../API';
 import ApiErrorMessage from '../../components/ApiErrorMessage/ApiErrorMessage';
 
 const CommentScreen = () => {
@@ -17,7 +21,9 @@ const CommentScreen = () => {
   const { data, loading, error } = useQuery<
     CommentsByPostQuery,
     CommentsByPostQueryVariables
-  >(commentsByPost, { variables: { postID: postId } });
+  >(commentsByPost, {
+    variables: { postID: postId, sortDirection: ModelSortDirection.DESC },
+  });
 
   const comments = data?.commentsByPost?.items.filter(
     (comment) => !comment?._deleted
@@ -46,6 +52,7 @@ const CommentScreen = () => {
             comment!
           </Text>
         )}
+        inverted
       />
       <Input postId={postId} />
     </View>
