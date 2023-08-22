@@ -29,7 +29,9 @@ const Comment = ({ comment, includeDetails = false }: ICommentProps) => {
       )}
       <View style={styles.middleColumn}>
         <Text style={styles.commentText}>
-          <Text style={styles.bold}>{comment.User?.username}</Text>{' '}
+          <Text style={styles.bold}>
+            {comment.User?.username || comment.User?.name}
+          </Text>{' '}
           {comment.comment}
         </Text>
         {includeDetails && (

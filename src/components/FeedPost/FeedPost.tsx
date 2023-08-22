@@ -17,6 +17,10 @@ import { DEFAULT_USER_IMAGE } from '../../config';
 import PostMenu from './PostMenu';
 import { useAuthContext } from '../../Context/AuthContext';
 import useLikeService from '../../services/LikeService/LikeService';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+
+dayjs.extend(relativeTime);
 
 interface IFeedPost {
   post: Post;
@@ -156,22 +160,15 @@ const FeedPost = ({ post, isVisible }: IFeedPost) => {
         </Text>
 
         {/* Comments */}
-        {post.Comments[0] ? (
-          <Text onPress={navigateToComments}>
-            View all {post.nofComments} comments
-          </Text>
-        ) : (
-          <Text onPress={navigateToComments}>No comments yet</Text>
-        )}
+        <Text onPress={navigateToComments}>
+          View all {post.nofComments} comments
+        </Text>
         {(post.Comments?.items || []).map(
-          (commentObject) =>
-            commentObject && (
-              <Comment comment={commentObject} key={commentObject.id} />
-            )
+          (comment) => comment && <Comment key={comment.id} comment={comment} />
         )}
-        {/* Posted Date */}
-        {/* post.createdAt */}
-        <Text>19th December, 2023</Text>
+
+        {/* Posted date */}
+        <Text>{dayjs(post.createdAt).fromNow()}</Text>
       </View>
     </View>
   );

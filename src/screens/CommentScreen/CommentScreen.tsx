@@ -32,6 +32,8 @@ const CommentScreen = () => {
     );
   }
 
+  console.log('COMMENT_SCREEN_POSTID', postId, comments);
+
   return (
     <View style={{ flex: 1 }}>
       <FlatList

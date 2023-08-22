@@ -10,8 +10,16 @@ import FeedPost from '../../components/FeedPost';
 import { useRef, useState } from 'react';
 import { useQuery } from '@apollo/client';
 import { listPosts } from './queries';
-import { ListPostsQuery, ListPostsQueryVariables } from '../../API';
+import {
+  CommentsByPostQuery,
+  CommentsByPostQueryVariables,
+  ListPostsQuery,
+  ListPostsQueryVariables,
+} from '../../API';
 import ApiErrorMessage from '../../components/ApiErrorMessage/ApiErrorMessage';
+import { commentsByPost } from '../CommentScreen/queries';
+import { useRoute } from '@react-navigation/native';
+import { CommentsRouteProp } from '../../types/navigation';
 
 const HomeScreen = () => {
   const [activePostId, setActivePostId] = useState<string | null>(null);

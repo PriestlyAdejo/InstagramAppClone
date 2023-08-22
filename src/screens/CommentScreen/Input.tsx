@@ -2,14 +2,8 @@ import { View, Text, Image, StyleSheet, TextInput, Alert } from 'react-native';
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
 import { useState } from 'react';
-import { useMutation } from '@apollo/client';
-import { createComment } from './mutations';
-import {
-  CreateCommentMutation,
-  CreateCommentMutationVariables,
-} from '../../API';
-import { useAuthContext } from '../../Context/AuthContext';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import useCommentService from '../../services/CommentService/CommentService';
 
 interface IInput {
   postId: string;
@@ -17,31 +11,12 @@ interface IInput {
 
 const Input = ({ postId }: IInput) => {
   const [newComment, setNewComment] = useState('');
-  const { userId } = useAuthContext();
-
   const insets = useSafeAreaInsets();
 
-  const [doCreateComment] = useMutation<
-    CreateCommentMutation,
-    CreateCommentMutationVariables
-  >(createComment, { refetchQueries: ['CommentsByPost'] });
+  const { onCreateComment } = useCommentService(postId);
 
   const onPost = async () => {
-    try {
-      await doCreateComment({
-        variables: {
-          input: {
-            postID: postId,
-            userID: userId,
-            comment: newComment,
-          },
-        },
-      });
-    } catch (error) {
-      console.log('Error creating comment', error);
-      Alert.alert('Error creating comment'), (error as Error).message;
-    }
-    // Send to backend
+    onCreateComment(newComment);
     setNewComment('');
   };
 
