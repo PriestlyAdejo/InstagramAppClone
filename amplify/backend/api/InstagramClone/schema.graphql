@@ -1,6 +1,8 @@
-type User @model @auth(rules: [{ allow: public }]) {
+type User
+  @model
+  @auth(rules: [{ allow: private, operations: [read] }, { allow: owner }]) {
   id: ID!
-  email: String!
+  email: String @auth(rules: [{ allow: owner }])
   name: String!
   image: String
   bio: String
@@ -15,7 +17,9 @@ type User @model @auth(rules: [{ allow: public }]) {
   Likes: [Like] @hasMany(indexName: "byUser", fields: ["id"])
 }
 
-type Post @model @auth(rules: [{ allow: public }]) {
+type Post
+  @model
+  @auth(rules: [{ allow: private, operations: [read] }, { allow: owner }]) {
   id: ID!
   createdAt: AWSDateTime!
   type: String!
@@ -36,7 +40,9 @@ type Post @model @auth(rules: [{ allow: public }]) {
   Comments: [Comment] @hasMany(indexName: "byPost", fields: ["id"])
 }
 
-type Like @model @auth(rules: [{ allow: public }]) {
+type Like
+  @model
+  @auth(rules: [{ allow: private, operations: [read] }, { allow: owner }]) {
   id: ID!
   userID: ID! @index(name: "byUser")
   postID: ID!
@@ -49,7 +55,9 @@ type Like @model @auth(rules: [{ allow: public }]) {
   Post: Post @belongsTo(fields: ["userID"])
 }
 
-type Comment @model @auth(rules: [{ allow: public }]) {
+type Comment
+  @model
+  @auth(rules: [{ allow: private, operations: [read] }, { allow: owner }]) {
   id: ID!
   createdAt: AWSDateTime!
   comment: String!

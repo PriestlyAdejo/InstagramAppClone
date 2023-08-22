@@ -12,7 +12,7 @@ type EagerUser = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly email: string;
+  readonly email?: string | null;
   readonly name: string;
   readonly image?: string | null;
   readonly bio?: string | null;
@@ -34,7 +34,7 @@ type LazyUser = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly email: string;
+  readonly email?: string | null;
   readonly name: string;
   readonly image?: string | null;
   readonly bio?: string | null;

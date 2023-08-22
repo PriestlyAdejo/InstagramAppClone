@@ -34,6 +34,7 @@ export const createUser = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
           __typename
         }
         nextToken
@@ -51,6 +52,7 @@ export const createUser = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
           __typename
         }
         nextToken
@@ -67,6 +69,7 @@ export const createUser = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
           __typename
         }
         nextToken
@@ -78,6 +81,7 @@ export const createUser = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      owner
       __typename
     }
   }
@@ -114,6 +118,7 @@ export const updateUser = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
           __typename
         }
         nextToken
@@ -131,6 +136,7 @@ export const updateUser = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
           __typename
         }
         nextToken
@@ -147,6 +153,7 @@ export const updateUser = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
           __typename
         }
         nextToken
@@ -158,6 +165,7 @@ export const updateUser = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      owner
       __typename
     }
   }
@@ -194,6 +202,7 @@ export const deleteUser = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
           __typename
         }
         nextToken
@@ -211,6 +220,7 @@ export const deleteUser = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
           __typename
         }
         nextToken
@@ -227,6 +237,7 @@ export const deleteUser = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
           __typename
         }
         nextToken
@@ -238,6 +249,7 @@ export const deleteUser = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      owner
       __typename
     }
   }
@@ -289,6 +301,7 @@ export const createPost = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        owner
         __typename
       }
       Likes {
@@ -301,6 +314,7 @@ export const createPost = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
           __typename
         }
         nextToken
@@ -318,6 +332,7 @@ export const createPost = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
           __typename
         }
         nextToken
@@ -328,6 +343,7 @@ export const createPost = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      owner
       __typename
     }
   }
@@ -379,6 +395,7 @@ export const updatePost = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        owner
         __typename
       }
       Likes {
@@ -391,6 +408,7 @@ export const updatePost = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
           __typename
         }
         nextToken
@@ -408,6 +426,7 @@ export const updatePost = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
           __typename
         }
         nextToken
@@ -418,6 +437,7 @@ export const updatePost = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      owner
       __typename
     }
   }
@@ -469,6 +489,7 @@ export const deletePost = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        owner
         __typename
       }
       Likes {
@@ -481,6 +502,7 @@ export const deletePost = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
           __typename
         }
         nextToken
@@ -498,6 +520,7 @@ export const deletePost = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
           __typename
         }
         nextToken
@@ -508,6 +531,7 @@ export const deletePost = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      owner
       __typename
     }
   }
@@ -552,6 +576,7 @@ export const createLike = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        owner
         __typename
       }
       Post {
@@ -581,6 +606,7 @@ export const createLike = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
           __typename
         }
         Likes {
@@ -597,6 +623,7 @@ export const createLike = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        owner
         __typename
       }
       createdAt
@@ -604,6 +631,7 @@ export const createLike = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      owner
       __typename
     }
   }
@@ -648,6 +676,7 @@ export const updateLike = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        owner
         __typename
       }
       Post {
@@ -677,6 +706,7 @@ export const updateLike = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
           __typename
         }
         Likes {
@@ -693,6 +723,7 @@ export const updateLike = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        owner
         __typename
       }
       createdAt
@@ -700,6 +731,7 @@ export const updateLike = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      owner
       __typename
     }
   }
@@ -744,6 +776,7 @@ export const deleteLike = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        owner
         __typename
       }
       Post {
@@ -773,6 +806,7 @@ export const deleteLike = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
           __typename
         }
         Likes {
@@ -789,6 +823,7 @@ export const deleteLike = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        owner
         __typename
       }
       createdAt
@@ -796,6 +831,7 @@ export const deleteLike = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      owner
       __typename
     }
   }
@@ -842,6 +878,7 @@ export const createComment = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        owner
         __typename
       }
       Post {
@@ -871,6 +908,7 @@ export const createComment = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
           __typename
         }
         Likes {
@@ -887,12 +925,14 @@ export const createComment = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        owner
         __typename
       }
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      owner
       __typename
     }
   }
@@ -939,6 +979,7 @@ export const updateComment = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        owner
         __typename
       }
       Post {
@@ -968,6 +1009,7 @@ export const updateComment = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
           __typename
         }
         Likes {
@@ -984,12 +1026,14 @@ export const updateComment = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        owner
         __typename
       }
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      owner
       __typename
     }
   }
@@ -1036,6 +1080,7 @@ export const deleteComment = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        owner
         __typename
       }
       Post {
@@ -1065,6 +1110,7 @@ export const deleteComment = /* GraphQL */ `
           _version
           _deleted
           _lastChangedAt
+          owner
           __typename
         }
         Likes {
@@ -1081,12 +1127,14 @@ export const deleteComment = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        owner
         __typename
       }
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      owner
       __typename
     }
   }

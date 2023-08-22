@@ -36,8 +36,12 @@ const PostMenu = ({ post }: IPostMenu) => {
   const navigation = useNavigation<FeedNavigationProp>();
 
   const startDeletingPost = async () => {
-    const response = await doDeletePost();
-    console.log(response);
+    try {
+      const response = await doDeletePost();
+      console.log(response);
+    } catch (error) {
+      Alert.alert('Failed to delete posts', (error as Error).message);
+    }
   };
 
   const onDeleteOptionPressed = () => {
