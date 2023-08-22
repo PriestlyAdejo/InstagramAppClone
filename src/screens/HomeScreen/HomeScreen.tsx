@@ -2,31 +2,31 @@
 import {
   ActivityIndicator,
   FlatList,
-  Text,
   ViewToken,
   ViewabilityConfig,
 } from 'react-native';
 import FeedPost from '../../components/FeedPost';
 import { useRef, useState } from 'react';
 import { useQuery } from '@apollo/client';
-import { listPosts } from './queries';
+import { postsByDate } from './queries';
 import {
-  CommentsByPostQuery,
-  CommentsByPostQueryVariables,
   ListPostsQuery,
   ListPostsQueryVariables,
+  ModelSortDirection,
+  PostsByDateQuery,
+  PostsByDateQueryVariables,
 } from '../../API';
 import ApiErrorMessage from '../../components/ApiErrorMessage/ApiErrorMessage';
-import { commentsByPost } from '../CommentScreen/queries';
-import { useRoute } from '@react-navigation/native';
-import { CommentsRouteProp } from '../../types/navigation';
+import { SortDirection } from 'aws-amplify';
 
 const HomeScreen = () => {
   const [activePostId, setActivePostId] = useState<string | null>(null);
   const { data, loading, error, refetch } = useQuery<
-    ListPostsQuery,
-    ListPostsQueryVariables
-  >(listPosts);
+    PostsByDateQuery,
+    PostsByDateQueryVariables
+  >(postsByDate, {
+    variables: { type: 'POST', sortDirection: ModelSortDirection.DESC },
+  });
 
   const viewabilityConfig: ViewabilityConfig = {
     itemVisiblePercentThreshold: 51,
@@ -49,7 +49,7 @@ const HomeScreen = () => {
     );
   }
 
-  const posts = (data?.listPosts?.items || []).filter(
+  const posts = (data?.postsByDate?.items || []).filter(
     (post) => !post?._deleted
   );
 

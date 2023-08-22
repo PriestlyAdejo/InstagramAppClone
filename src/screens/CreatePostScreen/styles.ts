@@ -1,26 +1,29 @@
 import colors from '../../theme/colors';
-import fonts from '../../theme/fonts';
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   root: {
+    flex: 1, // Ensure the screen takes the full available space
     alignItems: 'center',
-    padding: 10,
+    justifyContent: 'center', // Center content vertically and horizontally
+    backgroundColor: colors.white,
   },
   image: {
-    width: 200,
-    height: 200,
+    width: '100%', // Set a relative width
+    aspectRatio: 1, // Maintain aspect ratio of 1
+    marginBottom: 10, // Add some spacing
   },
   input: {
-    marginVertical: 10,
+    width: '100%',
     alignSelf: 'stretch',
     backgroundColor: colors.white,
-    padding: 10,
+    padding: 20,
     borderRadius: 5,
+    marginBottom: 10,
   },
   content: {
-    width: '100%',
-    aspectRatio: 1,
+    width: '80%', // Set a relative width
+    aspectRatio: 1, // Maintain aspect ratio of 1
   },
 });
 
