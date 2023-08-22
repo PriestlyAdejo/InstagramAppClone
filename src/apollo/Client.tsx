@@ -6,6 +6,7 @@ import {
   gql,
   HttpLink,
   createHttpLink,
+  TypePolicies,
 } from '@apollo/client';
 
 import { AuthOptions, createAuthLink, AUTH_TYPE } from 'aws-appsync-auth-link';
@@ -29,9 +30,29 @@ const link = ApolloLink.from([
   createSubscriptionHandshakeLink({ url, region, auth }, httpLink),
 ]);
 
+const typePolicies: TypePolicies = {
+  Query: {
+    fields: {
+      commentsByPost: {
+        keyArgs: ['postID', 'createdAt', 'sortDirection', 'filter'],
+        merge: (existing = {}, incoming) => {
+          const mergedItems = existing.items
+            ? [...existing.items, ...incoming.items]
+            : [...incoming.items];
+
+          return {
+            ...incoming,
+            items: mergedItems,
+          };
+        },
+      },
+    },
+  },
+};
+
 const client = new ApolloClient({
   link,
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({ typePolicies }),
 });
 
 const Client = ({ children }: IClient) => {

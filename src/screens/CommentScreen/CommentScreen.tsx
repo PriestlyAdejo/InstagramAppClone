@@ -13,21 +13,37 @@ import {
   ModelSortDirection,
 } from '../../API';
 import ApiErrorMessage from '../../components/ApiErrorMessage/ApiErrorMessage';
+import { useState } from 'react';
 
 const CommentScreen = () => {
   const route = useRoute<CommentsRouteProp>();
   const { postId } = route.params;
+  const [isFetchingMore, setIsfetchingMore] = useState(false);
 
-  const { data, loading, error } = useQuery<
+  const { data, loading, error, fetchMore } = useQuery<
     CommentsByPostQuery,
     CommentsByPostQueryVariables
   >(commentsByPost, {
-    variables: { postID: postId, sortDirection: ModelSortDirection.DESC },
+    variables: {
+      postID: postId,
+      sortDirection: ModelSortDirection.DESC,
+      limit: 3,
+    },
   });
 
   const comments = data?.commentsByPost?.items.filter(
     (comment) => !comment?._deleted
   );
+  const nextToken = data?.commentsByPost?.nextToken;
+
+  const loadMore = async () => {
+    if (!nextToken || isFetchingMore) {
+      return;
+    }
+    setIsfetchingMore(true);
+    await fetchMore({ variables: { nextToken } });
+    setIsfetchingMore(false);
+  };
 
   if (loading) {
     return <ActivityIndicator />;
@@ -37,8 +53,6 @@ const CommentScreen = () => {
       <ApiErrorMessage title="Error getting comments" message={error.message} />
     );
   }
-
-  console.log('COMMENT_SCREEN_POSTID', postId, comments);
 
   return (
     <View style={{ flex: 1 }}>
@@ -53,6 +67,11 @@ const CommentScreen = () => {
           </Text>
         )}
         inverted
+        ListFooterComponent={() => (
+          <Text onPress={loadMore} style={{ padding: 10 }}>
+            Load More...
+          </Text>
+        )}
       />
       <Input postId={postId} />
     </View>

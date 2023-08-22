@@ -31,7 +31,6 @@ const ProfileScreen = () => {
     variables: { id: userId },
   });
 
-  console.log(loading);
   const user = data?.getUser;
 
   if (error || !user) {
