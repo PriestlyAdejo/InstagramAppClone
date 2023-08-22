@@ -10,22 +10,25 @@ import { useRef, useState } from 'react';
 import { useQuery } from '@apollo/client';
 import { postsByDate } from './queries';
 import {
-  ListPostsQuery,
-  ListPostsQueryVariables,
   ModelSortDirection,
   PostsByDateQuery,
   PostsByDateQueryVariables,
 } from '../../API';
 import ApiErrorMessage from '../../components/ApiErrorMessage/ApiErrorMessage';
-import { SortDirection } from 'aws-amplify';
 
 const HomeScreen = () => {
   const [activePostId, setActivePostId] = useState<string | null>(null);
-  const { data, loading, error, refetch } = useQuery<
+  const [isFetchingMore, setIsFetchingMore] = useState(false);
+
+  const { data, loading, error, refetch, fetchMore } = useQuery<
     PostsByDateQuery,
     PostsByDateQueryVariables
   >(postsByDate, {
-    variables: { type: 'POST', sortDirection: ModelSortDirection.DESC },
+    variables: {
+      type: 'POST',
+      sortDirection: ModelSortDirection.DESC,
+      limit: 1,
+    },
   });
 
   const viewabilityConfig: ViewabilityConfig = {
@@ -53,6 +56,17 @@ const HomeScreen = () => {
     (post) => !post?._deleted
   );
 
+  const nextToken = data?.postsByDate?.nextToken;
+
+  const loadMore = async () => {
+    if (!nextToken || isFetchingMore) {
+      return;
+    }
+    setIsFetchingMore(true);
+    await fetchMore({ variables: { nextToken } });
+    setIsFetchingMore(false);
+  };
+
   return (
     <FlatList
       data={posts}
@@ -64,6 +78,7 @@ const HomeScreen = () => {
       onViewableItemsChanged={onViewableItemsChanged.current}
       onRefresh={() => refetch()}
       refreshing={loading}
+      onEndReached={loadMore}
     />
   );
 };

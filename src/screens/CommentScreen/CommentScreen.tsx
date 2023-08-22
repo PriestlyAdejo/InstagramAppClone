@@ -27,7 +27,7 @@ const CommentScreen = () => {
     variables: {
       postID: postId,
       sortDirection: ModelSortDirection.DESC,
-      limit: 3,
+      limit: 20,
     },
   });
 
@@ -67,11 +67,7 @@ const CommentScreen = () => {
           </Text>
         )}
         inverted
-        ListFooterComponent={() => (
-          <Text onPress={loadMore} style={{ padding: 10 }}>
-            Load More...
-          </Text>
-        )}
+        onEndReached={() => loadMore}
       />
       <Input postId={postId} />
     </View>
