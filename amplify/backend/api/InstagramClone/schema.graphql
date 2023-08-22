@@ -63,3 +63,8 @@ type Comment @model @auth(rules: [{ allow: public }]) {
   User: User @belongsTo(fields: ["userID"])
   Post: Post @belongsTo(fields: ["userID"])
 }
+
+type Subscription {
+  onCreateCommentByPostId(postID: ID!): Comment
+    @aws_subscribe(mutations: ["createComment"])
+}
