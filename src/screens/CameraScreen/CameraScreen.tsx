@@ -103,10 +103,11 @@ const CameraScreen = () => {
       setIsRecording(true);
       const result = await camera.current.recordAsync(options);
       console.log(result);
+      navigation.navigate('Create', { video: result.uri });
     } catch (error) {
       console.log('ERROR RECORDING VIDEO', error);
     } finally {
-      setIsRecording(true);
+      setIsRecording(false);
     }
   };
 
@@ -125,14 +126,20 @@ const CameraScreen = () => {
 
   const openImageGallery = () => {
     launchImageLibrary(
-      { mediaType: 'photo' },
+      { mediaType: 'mixed', selectionLimit: 5 },
       ({ didCancel, errorCode, assets }) => {
         if (!didCancel && !errorCode && assets && assets.length > 0) {
+          const params: { image?: string; images?: string[]; video?: string } =
+            {};
           if (assets.length === 1) {
-            navigation.navigate('Create', {
-              image: assets[0].uri,
-            });
+            const field = assets[0].type?.startsWith('video')
+              ? 'video'
+              : 'image';
+            params[field] = assets[0].uri;
+          } else if (assets.length > 1) {
+            params.images = assets.map((asset) => asset.uri as string);
           }
+          navigation.navigate('Create', params);
         }
       }
     );

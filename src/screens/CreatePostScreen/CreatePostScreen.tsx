@@ -24,6 +24,7 @@ const CreatePostScreen = () => {
   const { userId } = useAuthContext();
   const navigation = useNavigation<CreateNavigationProp>();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [progress, setProgress] = useState(0);
 
   const [doCreatePost] = useMutation<
     CreatePostMutation,
@@ -75,7 +76,11 @@ const CreatePostScreen = () => {
 
       // Upload the blob file to S3 using AWS Amplify's Storage
       const filename = `${uuidv4()}.${extension}`;
-      const s3Response = await Storage.put(filename, blob);
+      const s3Response = await Storage.put(filename, blob, {
+        progressCallback(newProgress) {
+          setProgress(newProgress.loaded / newProgress.total);
+        },
+      });
       console.log('S3_RESPONSE', s3Response);
       return s3Response.key;
     } catch (error) {
@@ -137,6 +142,13 @@ const CreatePostScreen = () => {
         text={isSubmitting ? 'Submitting Post...' : 'Submit'}
         onPress={submit}
       />
+
+      {isSubmitting && (
+        <View style={styles.progressContainer}>
+          <View style={[styles.progress, { width: `${progress * 100}%` }]} />
+          <Text>Uploading {Math.floor(progress * 100)}%</Text>
+        </View>
+      )}
     </KeyboardAwareScrollView>
   );
 };
