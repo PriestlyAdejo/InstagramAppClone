@@ -12,6 +12,8 @@ import styles from './styles';
 import colors from '../../theme/colors';
 import { useNavigation } from '@react-navigation/native';
 import { CameraNavigationProp } from '../../types/navigation';
+import { launchImageLibrary } from 'react-native-image-picker';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const flashModes = [
   FlashMode.off,
@@ -34,6 +36,7 @@ const CameraScreen = () => {
   const [isCameraReady, setIsCameraReady] = useState(true);
   const [isRecording, setIsRecording] = useState(false);
   const navigation = useNavigation<CameraNavigationProp>();
+  const inset = useSafeAreaInsets();
 
   const camera = useRef<Camera>(null);
 
@@ -76,6 +79,9 @@ const CameraScreen = () => {
 
       const result = await camera.current?.takePictureAsync();
       console.log(result);
+      navigation.navigate('Create', {
+        image: result.uri,
+      });
     } catch (error) {
       console.log('ERROR TAKING PHOTO', error);
     }
@@ -117,6 +123,21 @@ const CameraScreen = () => {
     });
   };
 
+  const openImageGallery = () => {
+    launchImageLibrary(
+      { mediaType: 'photo' },
+      ({ didCancel, errorCode, assets }) => {
+        if (!didCancel && !errorCode && assets && assets.length > 0) {
+          if (assets.length === 1) {
+            navigation.navigate('Create', {
+              image: assets[0].uri,
+            });
+          }
+        }
+      }
+    );
+  };
+
   if (hasPermissions === null) {
     return <Text>Loading...</Text>;
   }
@@ -137,7 +158,7 @@ const CameraScreen = () => {
         onCameraReady={() => setIsCameraReady(true)}
       />
 
-      <View style={[styles.buttonsContainer, { top: 25 }]}>
+      <View style={[styles.buttonsContainer, { top: inset.top + 25 }]}>
         <MaterialIcons name="close" size={30} color={colors.white} />
 
         <Pressable onPress={flipFlash}>
@@ -152,7 +173,9 @@ const CameraScreen = () => {
       </View>
 
       <View style={[styles.buttonsContainer, { bottom: 25 }]}>
-        <MaterialIcons name="photo-library" size={30} color={colors.white} />
+        <Pressable onPress={openImageGallery}>
+          <MaterialIcons name="photo-library" size={30} color={colors.white} />
+        </Pressable>
 
         {isCameraReady && (
           <Pressable
@@ -176,16 +199,6 @@ const CameraScreen = () => {
             color={colors.white}
           />
         </Pressable>
-
-        {isCameraReady && (
-          <Pressable onPress={navigateToCreateScreen}>
-            <MaterialIcons
-              name="arrow-forward-ios"
-              size={30}
-              color={colors.white}
-            />
-          </Pressable>
-        )}
       </View>
     </View>
   );

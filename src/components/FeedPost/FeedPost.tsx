@@ -8,8 +8,6 @@ import styles from './styles';
 import Comment from '../Comment/Comment';
 import { useState } from 'react';
 import DoublePressable from '../DoublePressable';
-import Carousel from '../Carousel/Carousel';
-import VideoPlayer from '../VideoPlayer/VideoPlayer';
 import { useNavigation } from '@react-navigation/native';
 import { FeedNavigationProp } from '../../types/navigation';
 import { Post } from '../../API';
@@ -19,6 +17,7 @@ import { useAuthContext } from '../../Context/AuthContext';
 import useLikeService from '../../services/LikeService/LikeService';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import Content from './Content';
 
 dayjs.extend(relativeTime);
 
@@ -61,26 +60,6 @@ const FeedPost = ({ post, isVisible }: IFeedPost) => {
     lastTap = now;
   };
 
-  let content = null;
-  if (post.image) {
-    content = (
-      <Image
-        source={{
-          uri: post.image,
-        }}
-        style={styles.image}
-      />
-    );
-  } else if (post.images) {
-    content = <Carousel images={post.images} onDoublePress={toggleLiked} />;
-  } else if (post.video) {
-    content = (
-      <DoublePressable onDoublePress={toggleLiked}>
-        <VideoPlayer uri={post.video} paused={!isVisible} />
-      </DoublePressable>
-    );
-  }
-
   return (
     <View style={styles.post}>
       {/* Header */}
@@ -101,7 +80,9 @@ const FeedPost = ({ post, isVisible }: IFeedPost) => {
       </View>
 
       {/* Content */}
-      {content}
+      <DoublePressable onDoublePress={toggleLiked}>
+        <Content post={post} isVisible />
+      </DoublePressable>
 
       {/* Footer */}
       <View style={styles.footer}>

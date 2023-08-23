@@ -25,7 +25,6 @@ const Comment = ({
   const toggleLike = () => {
     setIsLiked((v) => !v);
   };
-
   return (
     <View style={styles.comment}>
       {includeDetails && (
