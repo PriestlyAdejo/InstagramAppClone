@@ -21,12 +21,6 @@ const styles = StyleSheet.create({
     color: colors.black,
     lineHeight: 18,
   },
-  avatar: {
-    width: 40,
-    aspectRatio: 1,
-    borderRadius: 25,
-    marginRight: 5,
-  },
   middleColumn: {
     flex: 1,
   },

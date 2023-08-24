@@ -3,10 +3,12 @@ import styles from './styles';
 import Button from '../../components/Button/Button';
 import { useNavigation } from '@react-navigation/native';
 import { ProfileNavigationProp } from '../../types/navigation';
-import { Auth } from 'aws-amplify';
+import { Auth, Storage } from 'aws-amplify';
 import { User } from '../../API';
 import { DEFAULT_USER_IMAGE } from '../../config';
 import { useAuthContext } from '../../Context/AuthContext';
+import { useEffect, useState } from 'react';
+import UserImage from '../../components/UserImage/UserImage';
 
 interface IProfileHeader {
   user: User;
@@ -16,16 +18,16 @@ const ProfileHeader = ({ user }: IProfileHeader) => {
   const { userId } = useAuthContext();
   const navigation = useNavigation<ProfileNavigationProp>();
 
-  navigation.setOptions({ title: user?.username || 'Profile' });
+  useEffect(() => {
+    navigation.setOptions({ title: user?.username || 'Profile' });
+  }, [user?.username]);
+
   return (
     <View style={styles.root}>
       {/* Header with profile and metrics */}
       <View style={styles.headerRow}>
         {/* Profile Image */}
-        <Image
-          source={{ uri: user.image || DEFAULT_USER_IMAGE }}
-          style={styles.avatar}
-        />
+        <UserImage imageKey={user.image || undefined} width={100} />
 
         {/* Posts, followers, following */}
         <View style={styles.numberContainer}>
@@ -55,7 +57,7 @@ const ProfileHeader = ({ user }: IProfileHeader) => {
             onPress={() => navigation.navigate('Edit Profile')}
             inline
           />
-          <Button text="Sign Out" onPress={() => Auth.signOut()} inline />
+          <Button text="Sign out" onPress={() => Auth.signOut()} inline />
         </View>
       )}
     </View>

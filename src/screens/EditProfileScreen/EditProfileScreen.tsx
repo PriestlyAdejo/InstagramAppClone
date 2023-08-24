@@ -9,6 +9,7 @@ import {
   DeleteUserMutationVariables,
   GetUserQuery,
   GetUserQueryVariables,
+  UpdateUserInput,
   UpdateUserMutation,
   UpdateUserMutationVariables,
   UsersByUsernameQuery,
@@ -20,9 +21,10 @@ import { useAuthContext } from '../../Context/AuthContext';
 import ApiErrorMessage from '../../components/ApiErrorMessage/ApiErrorMessage';
 import { updateUser, deleteUser } from './mutations';
 import { useNavigation } from '@react-navigation/native';
-import { Auth } from 'aws-amplify';
+import { Auth, Storage } from 'aws-amplify';
 import { CustomInput, IEditableUser } from './CustomInput';
 import { DEFAULT_USER_IMAGE } from '../../config';
+import { v4 as uuidv4 } from 'uuid';
 
 const URL_REGEX =
   /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/i;
@@ -60,14 +62,69 @@ const EditProfileScreen = () => {
   }, [user, setValue]);
 
   const onSubmit = async (formData: IEditableUser) => {
-    console.log(formData);
-    await doUpdateUser({
+    const input: UpdateUserInput = {
+      id: userId,
+      ...formData,
+      _version: user?._version,
+    };
+    if (selectedPhoto?.uri) {
+      input.image = await uploadMedia(selectedPhoto.uri);
+    }
+
+    const response = await doUpdateUser({
       variables: {
         input: { id: userId, ...formData, _version: user?._version },
       },
     });
+    console.log('Response:', response);
     if (navigation.canGoBack()) {
       navigation.goBack();
+    }
+  };
+
+  if (loading) {
+    return <ActivityIndicator />;
+  }
+
+  if (error || updateError || deleteError) {
+    return (
+      <ApiErrorMessage
+        title="Error fetching or updating the user"
+        message={error?.message || updateError?.message || deleteError?.message}
+      />
+    );
+  }
+
+  const uriToBlob = (uri: string) => {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = function () {
+        // return the blob
+        resolve(xhr.response);
+      };
+      xhr.onerror = function () {
+        reject(new Error('uriToBlob failed'));
+      };
+      xhr.responseType = 'blob';
+      xhr.open('GET', uri, true);
+
+      xhr.send(null);
+    });
+  };
+
+  const uploadMedia = async (uri: string) => {
+    try {
+      // Get blob file of the uri
+      const blob = await uriToBlob(uri);
+      const uriParts = uri.split('.');
+      const extension = uriParts[uriParts.length - 1];
+
+      // Upload the blob file to S3 using AWS Amplify's Storage
+      const filename = `${uuidv4()}.${extension}`;
+      const s3Response = await Storage.put(filename, blob);
+      return s3Response.key;
+    } catch (error) {
+      Alert.alert('Error uploading the file.', (error as Error).message);
     }
   };
 
@@ -133,19 +190,6 @@ const EditProfileScreen = () => {
 
     return true;
   };
-
-  if (loading) {
-    return <ActivityIndicator />;
-  }
-
-  if (error || updateError || deleteError) {
-    return (
-      <ApiErrorMessage
-        title="Error fetching or updating the user"
-        message={error?.message || updateError?.message || deleteError?.message}
-      />
-    );
-  }
 
   return (
     <View style={styles.page}>

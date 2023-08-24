@@ -1,18 +1,17 @@
-import { FlatList, Image } from 'react-native';
-import React from 'react';
-import FeedGridItem from './FeedGridItem';
+import { FlatList } from 'react-native';
 import { Post } from '../../API';
+import FeedGridItem from './FeedGridItem';
 
-type IFeedGridView = {
+interface IFeedGridView {
   data: (Post | null)[];
-  ListHeaderComponent:
+  ListHeaderComponent?:
     | React.ComponentType<any>
     | React.ReactElement
     | null
     | undefined;
   refetch: () => void;
   loading: boolean;
-};
+}
 
 const FeedGridView = ({
   data,

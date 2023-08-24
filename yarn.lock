@@ -4731,10 +4731,10 @@ available-typed-arrays@^1.0.5:
   resolved "https://registry.npmjs.org/available-typed-arrays/-/available-typed-arrays-1.0.5.tgz"
   integrity sha512-DMD0KiN46eipeziST1LPP/STfDU0sufISXmjSgvVsoU2tqxctQeASejWcfNtxYKqETM1UxQ8sp2OrSBWpHY6sw==
 
-aws-amplify-react-native@^7.0.3:
-  version "7.0.3"
-  resolved "https://registry.npmjs.org/aws-amplify-react-native/-/aws-amplify-react-native-7.0.3.tgz"
-  integrity sha512-NvMHjDZ7tWPOO/9e2w0Zv+++j4v1FETWj7DFnOeeRC8q/Hz2IdItbp276+9Bwouw27qzwCNSftgwc19R67cI6g==
+aws-amplify-react-native@^7.0.5:
+  version "7.0.5"
+  resolved "https://registry.npmjs.org/aws-amplify-react-native/-/aws-amplify-react-native-7.0.5.tgz"
+  integrity sha512-y6YegPwDqzPrDz6b9+Fzu5ze3TWQv/UC2TRpFZKkREPGqbjUZm3121jMCMb2AYlSB7Gvzgq9pVXZ/jE79f2gjA==
   dependencies:
     buffer "^5.2.1"
 

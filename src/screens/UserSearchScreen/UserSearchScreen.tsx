@@ -1,5 +1,4 @@
 import { ActivityIndicator, FlatList } from 'react-native';
-import users from '../../assets/data/users.json';
 import UserListItem from '../../components/UserListItem/UserListItem';
 import { useQuery } from '@apollo/client';
 import { listUsers } from './queries';

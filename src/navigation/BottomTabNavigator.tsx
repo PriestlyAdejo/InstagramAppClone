@@ -1,13 +1,10 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import HomeScreen from '../screens/HomeScreen/HomeScreen';
-import ProfileScreen from '../screens/ProfileScreen/ProfileScreen';
-import CameraScreen from '../screens/CameraScreen/CameraScreen';
+import CameraScreen from '../screens/CameraScreen';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import HomeStackNavigator from './HomeStackNavigator';
 import colors from '../theme/colors';
+import HomeStackNavigator from './HomeStackNavigator';
 import ProfileStackNavigator from './ProfileStackNavigator';
 import { BottomTabNavigatorParamList } from '../types/navigation';
 import SearchTabNavigator from './SearchTabNavigator';
@@ -49,13 +46,17 @@ const BottomTabNavigator = () => {
         options={{
           headerShown: false,
           tabBarIcon: ({ color, size }) => (
-            <AntDesign name="pluscircleo" size={size} color={color} />
+            <MaterialCommunityIcons
+              name="plus-circle-outline"
+              size={size}
+              color={color}
+            />
           ),
         }}
       />
       <Tab.Screen
         name="Notifications"
-        component={HomeScreen}
+        component={CameraScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons

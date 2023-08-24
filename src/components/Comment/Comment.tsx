@@ -8,6 +8,7 @@ import { Comment as CommentType } from '../../API';
 import { DEFAULT_USER_IMAGE } from '../../config';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import dayjs from 'dayjs';
+import UserImage from '../UserImage/UserImage';
 
 interface ICommentProps {
   comment: CommentType;
@@ -28,10 +29,7 @@ const Comment = ({
   return (
     <View style={styles.comment}>
       {includeDetails && (
-        <Image
-          source={{ uri: comment.User?.image || DEFAULT_USER_IMAGE }}
-          style={styles.avatar}
-        />
+        <UserImage imageKey={comment?.User?.image || undefined} width={40} />
       )}
       <View style={styles.middleColumn}>
         <Text style={styles.commentText}>

@@ -7,17 +7,18 @@ export const updateUser = gql`
   ) {
     updateUser(input: $input, condition: $condition) {
       id
+
       name
-      image
-      bio
       username
+      bio
       website
+      image
+
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
-      __typename
     }
   }
 `;
@@ -29,11 +30,11 @@ export const deleteUser = gql`
   ) {
     deleteUser(input: $input, condition: $condition) {
       id
+
       updatedAt
       _version
       _deleted
       _lastChangedAt
-      __typename
     }
   }
 `;

@@ -1,8 +1,8 @@
+import { StyleSheet } from 'react-native';
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
-import { StyleSheet } from 'react-native';
 
-const styles = StyleSheet.create({
+export default StyleSheet.create({
   page: {
     alignItems: 'center',
     padding: 10,
@@ -16,12 +16,14 @@ const styles = StyleSheet.create({
     color: colors.primary,
     fontSize: fonts.size.md,
     fontWeight: fonts.weight.semi,
+
     margin: 10,
   },
   textButtonDanger: {
     color: colors.error,
     fontSize: fonts.size.md,
     fontWeight: fonts.weight.semi,
+
     margin: 10,
   },
   inputContainer: {
@@ -33,10 +35,7 @@ const styles = StyleSheet.create({
     width: 75,
   },
   input: {
-    borderColor: colors.border,
     borderBottomWidth: 1,
-    minheight: 50,
+    minHeight: 50,
   },
 });
-
-export default styles;

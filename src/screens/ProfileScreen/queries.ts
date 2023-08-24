@@ -4,19 +4,17 @@ export const getUser = gql`
   query GetUser($id: ID!) {
     getUser(id: $id) {
       id
-      email
       name
-      image
-      bio
       username
+      bio
       website
       nofPosts
       nofFollowers
       nofFollowings
+      image
       Posts {
         nextToken
         startedAt
-        __typename
         items {
           id
           image
@@ -29,7 +27,6 @@ export const getUser = gql`
       _version
       _deleted
       _lastChangedAt
-      __typename
     }
   }
 `;

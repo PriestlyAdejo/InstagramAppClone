@@ -12,11 +12,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginVertical: 10,
   },
-  avatar: {
-    width: 100,
-    aspectRatio: 1,
-    borderRadius: 50,
-  },
   numberContainer: {
     alignItems: 'center',
   },

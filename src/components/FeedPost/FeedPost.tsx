@@ -6,7 +6,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
 import styles from './styles';
 import Comment from '../Comment/Comment';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import DoublePressable from '../DoublePressable';
 import { useNavigation } from '@react-navigation/native';
 import { FeedNavigationProp } from '../../types/navigation';
@@ -18,6 +18,8 @@ import useLikeService from '../../services/LikeService/LikeService';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import Content from './Content';
+import { Storage } from 'aws-amplify';
+import UserImage from '../UserImage/UserImage';
 
 dayjs.extend(relativeTime);
 
@@ -29,9 +31,16 @@ interface IFeedPost {
 const FeedPost = ({ post, isVisible }: IFeedPost) => {
   const [isDescExpanded, setIsDescExpanded] = useState(false);
   const { userId } = useAuthContext();
+  const [imageUri, setImageUri] = useState<string | null>(null);
   const { toggleLiked, isLiked, postLikes } = useLikeService(post);
 
   const navigation = useNavigation<FeedNavigationProp>();
+
+  useEffect(() => {
+    if (post.User?.image) {
+      Storage.get(post.User?.image).then(setImageUri);
+    }
+  }, [post]);
 
   const navigateToUser = () => {
     if (post.User) {
@@ -64,18 +73,10 @@ const FeedPost = ({ post, isVisible }: IFeedPost) => {
     <View style={styles.post}>
       {/* Header */}
       <View style={styles.header}>
-        <DoublePressable onDoublePress={toggleLiked}>
-          <Image
-            source={{
-              uri: post.User?.image || DEFAULT_USER_IMAGE,
-            }}
-            style={styles.userAvatar}
-          />
-        </DoublePressable>
+        <UserImage imageKey={post?.User?.image || undefined} />
         <Text onPress={navigateToUser} style={styles.userName}>
           {post.User?.username}
         </Text>
-
         <PostMenu post={post} />
       </View>
 

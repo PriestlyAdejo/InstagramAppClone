@@ -5,6 +5,7 @@ import VideoPlayer from '../VideoPlayer';
 import { Post } from '../../API';
 import styles from './styles';
 import { Storage } from 'aws-amplify';
+import { S3Image } from 'aws-amplify-react-native';
 
 interface IContent {
   post: Post;
@@ -36,11 +37,34 @@ const Content = ({ post, isVisible }: IContent) => {
     downloadMedia();
   }, []);
 
+  const splitStringIndexResult = (
+    stringToSplit: string | null | undefined,
+    splitTerm: string,
+    resultIndex: number
+  ) => {
+    if (stringToSplit === undefined || stringToSplit === null) {
+      return undefined;
+    }
+    const result: string = stringToSplit.split(splitTerm)[resultIndex];
+    return result;
+  };
+
+  const imageUriSplit = splitStringIndexResult(imageUri, 'public/', 1);
+
+  const imageUriPureWithHome = splitStringIndexResult(imageUri, '?', 0);
+  const result: string = splitStringIndexResult(
+    imageUriPureWithHome,
+    'public/',
+    1
+  );
+
+  const imageUriPure = decodeURIComponent(result);
+
   if (imageUri) {
     return (
       <Image
         source={{
-          uri: imageUri,
+          uri: imageUri || imageUriPure,
         }}
         style={styles.image}
       />

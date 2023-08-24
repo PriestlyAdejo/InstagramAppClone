@@ -4,21 +4,20 @@ export const getUser = gql`
   query GetUser($id: ID!) {
     getUser(id: $id) {
       id
-      email
       name
-      image
-      bio
+      email
       username
+      bio
       website
       nofPosts
       nofFollowers
       nofFollowings
+      image
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
-      __typename
     }
   }
 `;
@@ -43,7 +42,6 @@ export const usersByUsername = gql`
       }
       nextToken
       startedAt
-      __typename
     }
   }
 `;

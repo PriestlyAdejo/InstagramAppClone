@@ -1,12 +1,9 @@
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import CommentScreen from '../screens/CommentScreen/CommentScreen';
-import {
-  SafeAreaView,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import HomeScreen from '../screens/HomeScreen/HomeScreen';
+import UserSearchScreen from '../screens/UserSearchScreen';
 import colors from '../theme/colors';
 import { SearchTabNavigatorParamList } from '../types/navigation';
-import UserSearchScreen from '../screens/UserSearchScreen/UserSearchScreen';
 
 const Tab = createMaterialTopTabNavigator<SearchTabNavigatorParamList>();
 
@@ -21,7 +18,7 @@ const SearchTabNavigator = () => {
       }}
     >
       <Tab.Screen name="Users" component={UserSearchScreen} />
-      <Tab.Screen name="Posts" component={CommentScreen} />
+      <Tab.Screen name="Posts" component={HomeScreen} />
     </Tab.Navigator>
   );
 };
