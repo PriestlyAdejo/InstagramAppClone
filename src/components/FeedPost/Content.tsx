@@ -49,8 +49,6 @@ const Content = ({ post, isVisible }: IContent) => {
     return result;
   };
 
-  const imageUriSplit = splitStringIndexResult(imageUri, 'public/', 1);
-
   const imageUriPureWithHome = splitStringIndexResult(imageUri, '?', 0);
   const result: string = splitStringIndexResult(
     imageUriPureWithHome,

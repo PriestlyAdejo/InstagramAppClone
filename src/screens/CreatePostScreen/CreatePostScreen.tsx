@@ -1,22 +1,13 @@
-import { Text, View, FlatList, Image, TextInput, Alert } from 'react-native';
+import { Text, View, TextInput } from 'react-native';
 import styles from './styles';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { CreateNavigationProp, CreateRouteProp } from '../../types/navigation';
 import { useState } from 'react';
 import Button from '../../components/Button/Button';
-import { createPost } from './mutations';
-import { useMutation } from '@apollo/client';
-import {
-  CreatePostInput,
-  CreatePostMutation,
-  CreatePostMutationVariables,
-} from '../../API';
+import { CreatePostInput } from '../../API';
 import { useAuthContext } from '../../Context/AuthContext';
-import Carousel from '../../components/Carousel/Carousel';
-import VideoPlayer from '../../components/VideoPlayer/VideoPlayer';
-import { Storage } from 'aws-amplify';
-import { v4 as uuidv4 } from 'uuid';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import usePostService from '../../services/PostService/PostService';
 
 const CreatePostScreen = () => {
   const [description, setDescription] = useState('');
@@ -24,70 +15,14 @@ const CreatePostScreen = () => {
   const { userId } = useAuthContext();
   const navigation = useNavigation<CreateNavigationProp>();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [progress, setProgress] = useState(0);
-
-  const [doCreatePost] = useMutation<
-    CreatePostMutation,
-    CreatePostMutationVariables
-  >(createPost);
-
   const { image, images, video } = route.params;
 
-  let content = null;
-  if (image) {
-    content = (
-      <Image
-        source={{
-          uri: image,
-        }}
-        style={styles.image}
-        resizeMode={'contain'}
-      />
-    );
-  } else if (images) {
-    content = <Carousel images={images} />;
-  } else if (video) {
-    content = <VideoPlayer uri={video} paused={true} />;
-  }
+  // Post Service
+  const { uploadMedia, doCreatePost, content, progress } = usePostService({
+    routeParams: route.params,
+  });
 
-  const uriToBlob = (uri: string) => {
-    return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.onload = function () {
-        // return the blob
-        resolve(xhr.response);
-      };
-      xhr.onerror = function () {
-        reject(new Error('uriToBlob failed'));
-      };
-      xhr.responseType = 'blob';
-      xhr.open('GET', uri, true);
-
-      xhr.send(null);
-    });
-  };
-
-  const uploadMedia = async (uri: string) => {
-    try {
-      // Get blob file of the uri
-      const blob = await uriToBlob(uri);
-      const uriParts = uri.split('.');
-      const extension = uriParts[uriParts.length - 1];
-
-      // Upload the blob file to S3 using AWS Amplify's Storage
-      const filename = `${uuidv4()}.${extension}`;
-      const s3Response = await Storage.put(filename, blob, {
-        progressCallback(newProgress) {
-          setProgress(newProgress.loaded / newProgress.total);
-        },
-      });
-      console.log('S3_RESPONSE', s3Response);
-      return s3Response.key;
-    } catch (error) {
-      Alert.alert('Error uploading the file.', (error as Error).message);
-    }
-  };
-
+  // Submitting Post
   const submit = async () => {
     if (isSubmitting) {
       return;

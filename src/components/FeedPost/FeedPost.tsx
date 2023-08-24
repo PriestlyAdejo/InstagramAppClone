@@ -1,5 +1,5 @@
 /* eslint-disable react/react-in-jsx-scope */
-import { View, Text, Image, Pressable } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
 import colors from '../../theme/colors';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -11,7 +11,6 @@ import DoublePressable from '../DoublePressable';
 import { useNavigation } from '@react-navigation/native';
 import { FeedNavigationProp } from '../../types/navigation';
 import { Post } from '../../API';
-import { DEFAULT_USER_IMAGE } from '../../config';
 import PostMenu from './PostMenu';
 import { useAuthContext } from '../../Context/AuthContext';
 import useLikeService from '../../services/LikeService/LikeService';

@@ -6,20 +6,13 @@ export const getUser = gql`
       id
       name
       username
-      bio
-      website
       nofPosts
-      nofFollowers
-      nofFollowings
       image
       Posts {
         nextToken
         startedAt
         items {
           id
-          image
-          images
-          video
           _deleted
         }
       }

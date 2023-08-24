@@ -22,6 +22,17 @@ const ProfileHeader = ({ user }: IProfileHeader) => {
     navigation.setOptions({ title: user?.username || 'Profile' });
   }, [user?.username]);
 
+  console.log(
+    'USER: ',
+    user.Posts?.items.map((post) => {
+      if (!!post?._deleted) {
+        return post;
+      }
+    }),
+    'USER_REAL: ',
+    user
+  );
+
   return (
     <View style={styles.root}>
       {/* Header with profile and metrics */}

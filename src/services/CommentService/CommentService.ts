@@ -4,7 +4,6 @@ import {
   CreateCommentMutationVariables,
   GetPostQuery,
   GetPostQueryVariables,
-  Post,
   UpdatePostMutation,
   UpdatePostMutationVariables,
 } from '../../API';

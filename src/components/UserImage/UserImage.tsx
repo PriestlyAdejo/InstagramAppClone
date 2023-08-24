@@ -17,14 +17,36 @@ const UserImage = ({ imageKey, width = 50 }: IUserImage) => {
     }
   }, [imageKey]);
 
-  return (
-    <Image
-      source={{
-        uri: imageUri || DEFAULT_USER_IMAGE,
-      }}
-      style={[styles.image, { width }]}
-    />
-  );
+  const isValidImageUrl = (url: string | null) => {
+    // Basic URL validation using a regular expression
+    const urlPattern =
+      /^(http|https):\/\/[\w\-.]+\.[a-z]{2,}(\/\S*)?[.]{1}[a-z]{2,}$/i;
+    return url ? urlPattern.test(url) : false;
+  };
+
+  const renderImage = () => {
+    if (isValidImageUrl(imageUri)) {
+      return (
+        <Image
+          source={{
+            uri: imageUri!,
+          }}
+          style={[styles.image, { width }]}
+        />
+      );
+    } else {
+      return (
+        <Image
+          source={{
+            uri: DEFAULT_USER_IMAGE,
+          }}
+          style={[styles.image, { width }]}
+        />
+      );
+    }
+  };
+
+  return <View>{renderImage()}</View>;
 };
 
 const styles = StyleSheet.create({

@@ -152,8 +152,6 @@ const CameraScreen = () => {
     return <Text>No access to the camera.</Text>;
   }
 
-  console.warn(flash);
-
   return (
     <View style={styles.page}>
       <Camera

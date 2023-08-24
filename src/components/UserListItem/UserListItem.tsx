@@ -2,7 +2,7 @@ import { View, Text, Image, Pressable } from 'react-native';
 import styles from './styles';
 import { useNavigation } from '@react-navigation/native';
 import { User } from '../../API';
-import { DEFAULT_USER_IMAGE } from '../../config';
+import UserImage from '../UserImage/UserImage';
 
 interface IUserListItem {
   user: User;
@@ -17,10 +17,7 @@ const UserListItem = ({ user }: IUserListItem) => {
 
   return (
     <Pressable onPress={goToUserScreen} style={styles.root}>
-      <Image
-        source={{ uri: user.image || DEFAULT_USER_IMAGE }}
-        style={styles.image}
-      />
+      <UserImage imageKey={user.image || undefined} width={40} />
       <View>
         <Text style={styles.name}>{user.name}</Text>
         <Text style={styles.username}>{user.username}</Text>
