@@ -5,7 +5,6 @@ export const getUser = gql`
     getUser(id: $id) {
       id
       name
-      email
       username
       bio
       website
@@ -13,6 +12,17 @@ export const getUser = gql`
       nofFollowers
       nofFollowings
       image
+      Posts {
+        nextToken
+        startedAt
+        items {
+          id
+          image
+          images
+          video
+          _deleted
+        }
+      }
       createdAt
       updatedAt
       _version

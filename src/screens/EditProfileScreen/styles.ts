@@ -38,4 +38,20 @@ export default StyleSheet.create({
     borderBottomWidth: 1,
     minHeight: 50,
   },
+  progressContainer: {
+    backgroundColor: colors.lightgrey,
+    width: '100%',
+    height: 25,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 25,
+    marginVertical: 10,
+  },
+  progress: {
+    backgroundColor: colors.primary,
+    position: 'absolute',
+    height: '100%',
+    alignSelf: 'flex-start',
+    borderRadius: 25,
+  },
 });

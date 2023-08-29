@@ -91,7 +91,7 @@ const usePostService = ({ routeParams }: IPostService) => {
 
       // Upload the blob file to S3 using AWS Amplify's Storage
       const filename = `${uuidv4()}.${extension}`;
-      const s3Response = await Storage.put(filename, blob, {
+      let s3Response = await Storage.put(filename, blob, {
         progressCallback(newProgress) {
           setProgress(newProgress.loaded / newProgress.total);
         },

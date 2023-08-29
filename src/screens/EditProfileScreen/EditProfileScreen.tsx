@@ -1,9 +1,8 @@
-import { Text, View, Image, ActivityIndicator, Alert } from 'react-native';
-import styles from './styles';
+import { useEffect, useState } from 'react';
+import { View, Text, Image, ActivityIndicator, Alert } from 'react-native';
+import { useForm } from 'react-hook-form';
 import { Asset, launchImageLibrary } from 'react-native-image-picker';
 
-import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
 import {
   DeleteUserMutation,
   DeleteUserMutationVariables,
@@ -15,41 +14,56 @@ import {
   UsersByUsernameQuery,
   UsersByUsernameQueryVariables,
 } from '../../API';
-import { useLazyQuery, useMutation, useQuery } from '@apollo/client';
 import { getUser, usersByUsername } from './queries';
-import { useAuthContext } from '../../Context/AuthContext';
-import ApiErrorMessage from '../../components/ApiErrorMessage/ApiErrorMessage';
 import { updateUser, deleteUser } from './mutations';
-import { useNavigation } from '@react-navigation/native';
+import { useQuery, useMutation, useLazyQuery } from '@apollo/client';
+import { useAuthContext } from '../../Context/AuthContext';
+import ApiErrorMessage from '../../components/ApiErrorMessage';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { Auth, Storage } from 'aws-amplify';
-import { CustomInput, IEditableUser } from './CustomInput';
+import styles from './styles';
+import CustomInput, { IEditableUser } from './CustomInput';
 import { DEFAULT_USER_IMAGE } from '../../config';
 import { v4 as uuidv4 } from 'uuid';
+import {
+  MyProfileNavigationProp,
+  MyProfileRouteProp,
+  UserProfileNavigationProp,
+  UserProfileRouteProp,
+} from '../../types/navigation';
 
 const URL_REGEX =
-  /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/i;
+  /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
 
 const EditProfileScreen = () => {
   const [selectedPhoto, setSelectedPhoto] = useState<null | Asset>(null);
   const { control, handleSubmit, setValue } = useForm<IEditableUser>();
-  const navigation = useNavigation();
-  const { userId, user: authUser } = useAuthContext();
+  const navigation = useNavigation<
+    UserProfileNavigationProp | MyProfileNavigationProp
+  >();
+  const route = useRoute<UserProfileRouteProp | MyProfileRouteProp>();
+  const [progress, setProgress] = useState(0);
 
-  const { data, loading, error } = useQuery<
+  const { userId: authUserId, user: authUser } = useAuthContext();
+  const routeUserId = route.params?.userId;
+
+  const userId = routeUserId || authUserId;
+
+  const { data, loading, error, refetch } = useQuery<
     GetUserQuery,
     GetUserQueryVariables
   >(getUser, { variables: { id: userId } });
+  const user = data?.getUser;
 
   const [getUsersByUsername] = useLazyQuery<
     UsersByUsernameQuery,
     UsersByUsernameQueryVariables
   >(usersByUsername);
 
-  const user = data?.getUser;
-
   const [doUpdateUser, { loading: updateLoading, error: updateError }] =
     useMutation<UpdateUserMutation, UpdateUserMutationVariables>(updateUser);
-  const [doDeleteUser, { loading: deleteLoading, error: deleteError }] =
+
+  const [doDelete, { loading: deleteLoading, error: deleteError }] =
     useMutation<DeleteUserMutation, DeleteUserMutationVariables>(deleteUser);
 
   useEffect(() => {
@@ -68,32 +82,17 @@ const EditProfileScreen = () => {
       _version: user?._version,
     };
     if (selectedPhoto?.uri) {
+      // upload the photo
       input.image = await uploadMedia(selectedPhoto.uri);
     }
 
-    const response = await doUpdateUser({
-      variables: {
-        input: { id: userId, ...formData, _version: user?._version },
-      },
+    await doUpdateUser({
+      variables: { input },
     });
-    console.log('Response:', response);
     if (navigation.canGoBack()) {
       navigation.goBack();
     }
   };
-
-  if (loading) {
-    return <ActivityIndicator />;
-  }
-
-  if (error || updateError || deleteError) {
-    return (
-      <ApiErrorMessage
-        title="Error fetching or updating the user"
-        message={error?.message || updateError?.message || deleteError?.message}
-      />
-    );
-  }
 
   const uriToBlob = (uri: string) => {
     return new Promise((resolve, reject) => {
@@ -114,22 +113,22 @@ const EditProfileScreen = () => {
 
   const uploadMedia = async (uri: string) => {
     try {
-      // Get blob file of the uri
-      const blob = await uriToBlob(uri);
+      // get the blob of the file from uri
+      const blob = uriToBlob(uri);
+
       const uriParts = uri.split('.');
       const extension = uriParts[uriParts.length - 1];
 
-      // Upload the blob file to S3 using AWS Amplify's Storage
-      const filename = `${uuidv4()}.${extension}`;
-      const s3Response = await Storage.put(filename, blob);
+      // upload the file (blob) to S3
+      const s3Response = await Storage.put(`${uuidv4()}.${extension}`, blob);
       return s3Response.key;
-    } catch (error) {
-      Alert.alert('Error uploading the file.', (error as Error).message);
+    } catch (e) {
+      Alert.alert('Error uploading the file');
     }
   };
 
   const confirmDelete = () => {
-    Alert.alert('Are you sure?', 'Deleting your user profile is permanent.', [
+    Alert.alert('Are you sure?', 'Deleting your user profile is permanent', [
       {
         text: 'Cancel',
         style: 'cancel',
@@ -146,15 +145,15 @@ const EditProfileScreen = () => {
     if (!user) {
       return;
     }
-    // Delete from database
-    await doDeleteUser({
-      variables: { input: { id: userId, _version: user?._version } },
+    // delete from DB
+    await doDelete({
+      variables: { input: { id: userId, _version: user._version } },
     });
 
-    // Delete from cognito
+    // delete from Cognito
     authUser?.deleteUser((err) => {
-      if (error) {
-        console.log(error);
+      if (err) {
+        console.log(err);
       }
       Auth.signOut();
     });
@@ -172,6 +171,8 @@ const EditProfileScreen = () => {
   };
 
   const validateUsername = async (username: string) => {
+    // query the database based on the usersByUsername
+
     try {
       const response = await getUsersByUsername({ variables: { username } });
       if (response.error) {
@@ -179,17 +180,29 @@ const EditProfileScreen = () => {
         return 'Failed to fetch username';
       }
       const users = response.data?.usersByUsername?.items;
-      if (users && users?.length > 0 && users?.[0]?.id !== userId) {
+      if (users && users.length > 0 && users?.[0]?.id !== userId) {
         return 'Username is already taken';
       }
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-      Alert.alert('Failed to fetch username.');
+    } catch (e) {
+      Alert.alert('Failed to fetch username');
     }
+    // if there are any users with this username, then return the error
 
     return true;
   };
+
+  if (loading) {
+    return <ActivityIndicator />;
+  }
+
+  if (error || updateError || deleteError) {
+    return (
+      <ApiErrorMessage
+        title="Error fetching or updating the user"
+        message={error?.message || updateError?.message || deleteError?.message}
+      />
+    );
+  }
 
   return (
     <View style={styles.page}>
@@ -200,19 +213,13 @@ const EditProfileScreen = () => {
         style={styles.avatar}
       />
       <Text onPress={onChangePhoto} style={styles.textButton}>
-        Change Profile Photo
+        Change profile photo
       </Text>
 
       <CustomInput
         name="name"
         control={control}
-        rules={{
-          required: 'Username is required',
-          minLength: {
-            value: 3,
-            message: 'Username must be more than 3 characters',
-          },
-        }}
+        rules={{ required: 'Name is required' }}
         label="Name"
       />
       <CustomInput
@@ -222,7 +229,7 @@ const EditProfileScreen = () => {
           required: 'Username is required',
           minLength: {
             value: 3,
-            message: 'Username must be longer than 3 characters',
+            message: 'Username should be more than 3 character',
           },
           validate: validateUsername,
         }}
@@ -232,7 +239,10 @@ const EditProfileScreen = () => {
         name="website"
         control={control}
         rules={{
-          pattern: { value: URL_REGEX, message: 'Invalid URL' },
+          pattern: {
+            value: URL_REGEX,
+            message: 'Invalid url',
+          },
         }}
         label="Website"
       />
@@ -242,7 +252,7 @@ const EditProfileScreen = () => {
         rules={{
           maxLength: {
             value: 200,
-            message: 'Bio must be under than 200 characters',
+            message: 'Bio should be less than 200 character',
           },
         }}
         label="Bio"

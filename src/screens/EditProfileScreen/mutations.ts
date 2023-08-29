@@ -9,10 +9,10 @@ export const updateUser = gql`
       id
 
       name
-      username
-      bio
-      website
       image
+      bio
+      username
+      website
 
       createdAt
       updatedAt

@@ -2,7 +2,11 @@ import { Text, View, FlatList, Image } from 'react-native';
 import styles from './styles';
 import Button from '../../components/Button/Button';
 import { useNavigation } from '@react-navigation/native';
-import { ProfileNavigationProp } from '../../types/navigation';
+import {
+  MyProfileNavigationProp,
+  ProfileNavigationProp,
+  UserProfileNavigationProp,
+} from '../../types/navigation';
 import { Auth, Storage } from 'aws-amplify';
 import { User } from '../../API';
 import { DEFAULT_USER_IMAGE } from '../../config';
@@ -65,7 +69,11 @@ const ProfileHeader = ({ user }: IProfileHeader) => {
         <View style={{ flexDirection: 'row' }}>
           <Button
             text="Edit Profile"
-            onPress={() => navigation.navigate('Edit Profile')}
+            onPress={() =>
+              navigation.navigate('Edit Profile', {
+                userId: userId,
+              })
+            }
             inline
           />
           <Button text="Sign out" onPress={() => Auth.signOut()} inline />
