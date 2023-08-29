@@ -1,6 +1,6 @@
 {
   "name": "priestagram",
-  "version": "0.0.3",
+  "version": "1.0.2",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
@@ -8,7 +8,7 @@
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest",
-    "preinstall": "npm install --package-lock-only --ignore-scripts && npx npm-force-resolutions"
+    "postinstall": "npx react-native-version --never-amend"
   },
   "dependencies": {
     "@apollo/client": "^3.8.1",
