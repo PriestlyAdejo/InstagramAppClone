@@ -44,7 +44,9 @@
     "react-native-screens": "^3.24.0",
     "react-native-tab-view": "^3.5.2",
     "react-native-vector-icons": "^10.0.0",
+    "react-native-version": "^4.0.0",
     "react-native-video": "^5.2.1",
+    "save-dev": "^0.0.1-security",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
