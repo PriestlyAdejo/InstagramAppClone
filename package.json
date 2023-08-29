@@ -1,6 +1,6 @@
 {
   "name": "priestagram",
-  "version": "0.0.1",
+  "version": "1.0.4",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
@@ -8,7 +8,7 @@
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest",
-    "preinstall": "npm install --package-lock-only --ignore-scripts && npx npm-force-resolutions"
+    "postinstall": "npx react-native-version"
   },
   "dependencies": {
     "@apollo/client": "^3.8.1",
@@ -44,7 +44,9 @@
     "react-native-screens": "^3.24.0",
     "react-native-tab-view": "^3.5.2",
     "react-native-vector-icons": "^10.0.0",
+    "react-native-version": "^4.0.0",
     "react-native-video": "^5.2.1",
+    "save-dev": "^0.0.1-security",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
