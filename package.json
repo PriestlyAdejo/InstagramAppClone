@@ -8,7 +8,7 @@
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest",
-    "postinstall": "npx react-native-version --android android/app/build.gradle --never-amend"
+    "postversion": "npx react-native-version --android android/app/build.gradle --never-amend"
   },
   "dependencies": {
     "@apollo/client": "^3.8.1",
