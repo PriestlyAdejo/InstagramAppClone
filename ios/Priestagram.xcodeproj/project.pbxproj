@@ -14,6 +14,7 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		7699B88040F8A987B510C191 /* libPods-Priestagram-PriestagramTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-Priestagram-PriestagramTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		3EFDF7C2E119452F97B91DB5 /* noop-file.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818BC62C32594F65930E15A6 /* noop-file.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +45,9 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = "Priestagram/LaunchScreen.storyboard"; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-Priestagram-PriestagramTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Priestagram-PriestagramTests.release.xcconfig"; path = "Target Support Files/Pods-Priestagram-PriestagramTests/Pods-Priestagram-PriestagramTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		818BC62C32594F65930E15A6 /* noop-file.swift */ = {isa = PBXFileReference; name = "noop-file.swift"; path = "Priestagram/noop-file.swift"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.swift; explicitFileType = undefined; includeInIndex = 0; };
+		4F57A145A1E342BFA7A52FDB /* Priestagram-Bridging-Header.h */ = {isa = PBXFileReference; name = "Priestagram-Bridging-Header.h"; path = "Priestagram/Priestagram-Bridging-Header.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		C71C62B4AA454C619D521B5B /* SplashScreen.storyboard */ = {isa = PBXFileReference; name = "SplashScreen.storyboard"; path = "Priestagram/SplashScreen.storyboard"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +96,9 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				818BC62C32594F65930E15A6 /* noop-file.swift */,
+				4F57A145A1E342BFA7A52FDB /* Priestagram-Bridging-Header.h */,
+				C71C62B4AA454C619D521B5B /* SplashScreen.storyboard */,
 			);
 			name = "Priestagram";
 			sourceTree = "<group>";
@@ -244,6 +251,8 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				47AD14027B524CF597A86685 /* Priestagram-Bridging-Header.h in Resources */,
+				7493E0DA50704F5EAAECE1E1 /* SplashScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -414,6 +423,7 @@
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				3EFDF7C2E119452F97B91DB5 /* noop-file.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -452,6 +462,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "dev.priest.agram";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Priestagram.app/Priestagram";
+				TARGETED_DEVICE_FAMILY = "1";
+				SWIFT_OBJC_BRIDGING_HEADER = Priestagram/Priestagram-Bridging-Header.h;
 			};
 			name = Debug;
 		};
@@ -476,6 +488,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "dev.priest.agram";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Priestagram.app/Priestagram";
+				TARGETED_DEVICE_FAMILY = "1";
+				SWIFT_OBJC_BRIDGING_HEADER = Priestagram/Priestagram-Bridging-Header.h;
 			};
 			name = Release;
 		};
@@ -488,7 +502,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = "Priestagram/Info.plist";
-             INFOPLIST_KEY_CFBundleDisplayName = "Priestagram";
+				INFOPLIST_KEY_CFBundleDisplayName = "Priestagram";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -500,10 +514,13 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "dev.priest.agram";
-				PRODUCT_NAME = "Priestagram";
+				PRODUCT_NAME = "priestagram";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
+				TARGETED_DEVICE_FAMILY = "1";
+				SWIFT_OBJC_BRIDGING_HEADER = Priestagram/Priestagram-Bridging-Header.h;
+				CODE_SIGN_ENTITLEMENTS = Priestagram/"Priestagram".entitlements;
 			};
 			name = Debug;
 		};
@@ -515,7 +532,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = "Priestagram/Info.plist";
-             INFOPLIST_KEY_CFBundleDisplayName = "Priestagram";
+				INFOPLIST_KEY_CFBundleDisplayName = "Priestagram";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -527,9 +544,12 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "dev.priest.agram";
-				PRODUCT_NAME = "Priestagram";
+				PRODUCT_NAME = "priestagram";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
+				TARGETED_DEVICE_FAMILY = "1";
+				SWIFT_OBJC_BRIDGING_HEADER = Priestagram/Priestagram-Bridging-Header.h;
+				CODE_SIGN_ENTITLEMENTS = Priestagram/"Priestagram".entitlements;
 			};
 			name = Release;
 		};
