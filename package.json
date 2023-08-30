@@ -10,7 +10,8 @@
     "test": "jest",
     "preversion": "npx expo prebuild --npm --platform android --clean",
     "postversion": "npx react-native-version",
-    "submit": "eas submit -p android --latest"
+    "submit": "eas submit -p android --latest",
+    "build": "eas build --platform android"
   },
   "dependencies": {
     "@apollo/client": "^3.8.1",
