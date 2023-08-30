@@ -11,7 +11,8 @@
     "preversion": "npx expo prebuild --npm --platform android --clean",
     "postversion": "npx react-native-version",
     "submit": "eas submit -p android --latest",
-    "build": "eas build --platform android"
+    "build": "eas build --platform android",
+    "build:auto": "eas build --platform android --auto-submit"
   },
   "dependencies": {
     "@apollo/client": "^3.8.1",
