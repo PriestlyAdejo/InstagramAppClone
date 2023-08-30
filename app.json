@@ -6,6 +6,13 @@
       "eas": {
         "projectId": "53e7aeb6-86d0-4930-9249-e9c64bc39b90"
       }
+    },
+    "version": "1.0.5",
+    "android": {
+      "versionCode": 2
+    },
+    "ios": {
+      "buildNumber": "1"
     }
   }
 }

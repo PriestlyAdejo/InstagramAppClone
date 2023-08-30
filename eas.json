@@ -31,7 +31,8 @@
     "production": {
       "android": {
         "serviceAccountKeyPath": "./service_account.json",
-        "track": "production"
+        "track": "production",
+         "autoIncrement": true
       }
     }
   }
