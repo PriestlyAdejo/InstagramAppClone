@@ -6,33 +6,40 @@
     "development": {
       "distribution": "internal",
       "android": {
-        "gradleCommand": ":app:assembleDebug"
+        "gradleCommand": ":app:assembleDebug",
+        "autoIncrement": {"versionCode": true}
       },
       "ios": {
-        "buildConfiguration": "Debug"
+        "buildConfiguration": "Debug",
+        "autoIncrement": {"versionCode": true}
       }
     },
     "development-simulator": {
       "distribution": "internal",
       "android": {
-        "gradleCommand": ":app:assembleDebug"
+        "gradleCommand": ":app:assembleDebug",
+        "autoIncrement": {"versionCode": true}
       },
       "ios": {
         "buildConfiguration": "Debug",
-        "simulator": true
+        "simulator": true,
+        "autoIncrement": {"versionCode": true}
       }
     },
     "preview": {
       "distribution": "internal"
     },
-    "production": {}
+    "production": {
+      "android": {
+        "autoIncrement": {"versionCode": true}
+      }
+    }
   },
   "submit": {
     "production": {
       "android": {
         "serviceAccountKeyPath": "./service_account.json",
-        "track": "production",
-         "autoIncrement": {"versionCode": true}
+        "track": "production"
       }
     }
   }
