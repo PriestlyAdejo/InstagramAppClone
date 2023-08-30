@@ -7,23 +7,23 @@
       "distribution": "internal",
       "android": {
         "gradleCommand": ":app:assembleDebug",
-        "autoIncrement": {"versionCode": true}
+        "autoIncrement": true
       },
       "ios": {
         "buildConfiguration": "Debug",
-        "autoIncrement": {"versionCode": true}
+        "autoIncrement": true
       }
     },
     "development-simulator": {
       "distribution": "internal",
       "android": {
         "gradleCommand": ":app:assembleDebug",
-        "autoIncrement": {"versionCode": true}
+        "autoIncrement": true
       },
       "ios": {
         "buildConfiguration": "Debug",
         "simulator": true,
-        "autoIncrement": {"versionCode": true}
+        "autoIncrement": true
       }
     },
     "preview": {
@@ -31,7 +31,7 @@
     },
     "production": {
       "android": {
-        "autoIncrement": {"versionCode": true}
+        "autoIncrement": true
       }
     }
   },
