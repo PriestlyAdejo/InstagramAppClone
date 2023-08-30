@@ -8,7 +8,7 @@
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest",
-    "preversion": "npx expo prebuild --npm --skip-dependency-update react-native,react",
+    "preversion": "npx expo prebuild --npm",
     "postversion": "npx react-native-version"
   },
   "dependencies": {
