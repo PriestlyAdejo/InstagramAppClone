@@ -7,13 +7,13 @@
         "projectId": "53e7aeb6-86d0-4930-9249-e9c64bc39b90"
       }
     },
-    "version": "1.2.10",
+    "version": "1.2.11",
     "android": {
-      "versionCode": 7,
+      "versionCode": 8,
       "package": "dev.priest.agram"
     },
     "ios": {
-      "buildNumber": "6",
+      "buildNumber": "7",
       "bundleIdentifier": "dev.priest.agram"
     }
   }
