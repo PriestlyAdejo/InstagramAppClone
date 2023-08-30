@@ -32,7 +32,7 @@
       "android": {
         "serviceAccountKeyPath": "./service_account.json",
         "track": "production",
-         "autoIncrement": true
+         "autoIncrement": {"versionCode": true}
       }
     }
   }
