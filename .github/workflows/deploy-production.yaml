@@ -1,0 +1,58 @@
+name: Build and Deploy the application to production environment
+
+on:
+  workflow_dispatch:
+
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-backend:
+    name: Deploy backend to production environment
+    uses: ./.github/workflows/amplify-init.yaml
+    secrets: inherit
+    with:
+      AMPLIFY_ENV_NAME: prod
+
+  patch-version:
+    name: Patch the version of the app
+    needs: deploy-backend
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: git pull origin ${{ github.ref_name }}
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20.x
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+
+      - run: |
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+          git config user.name "$GITHUB_ACTOR"
+
+      - name: Patch version
+        run: npm version patch
+
+      # Commit and push changes to github
+      - uses: stefanzweifel/git-auto-commit-action@v4
+
+  build-android:
+    name: Install and build android app (Production)
+    needs: patch-version
+    uses: ./.github/workflows/eas-build.yaml
+    secrets: inherit
+    with:
+      PLATFORM: android
+      PROFILE: production
+
+  submit-android:
+    name: Submit android app to Play Store
+    needs: build-android
+    uses: ./.github/workflows/eas-submit.yaml
+    secrets: inherit
+    with:
+      PLATFORM: android

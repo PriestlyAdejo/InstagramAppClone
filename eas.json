@@ -1,0 +1,33 @@
+{
+  "cli": {
+    "version": ">= 4.1.2"
+  },
+  "build": {
+    "development": {
+      "distribution": "internal",
+      "android": {
+        "gradleCommand": ":app:assembleDebug"
+      },
+      "ios": {
+        "buildConfiguration": "Debug",
+        "simulator": true
+      }
+    },
+
+    "preview": {
+      "distribution": "internal"
+    },
+
+    "production": {}
+  },
+  "submit": {
+    "production": {
+      "android": {
+        "serviceAccountKeyPath": "./service_account.json",
+        "track": "internal",
+        "changesNotSentForReview": "true"
+      },
+      "ios": {}
+    }
+  }
+}

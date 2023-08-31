@@ -1,0 +1,25 @@
+name: Build and Deploy the application to staging environment
+
+on:
+  workflow_dispatch:
+
+  push:
+    branches:
+      - staging
+
+jobs:
+  deploy-backend:
+    name: Deploy backend to staging environment
+    uses: ./.github/workflows/amplify-init.yaml
+    secrets: inherit
+    with:
+      AMPLIFY_ENV_NAME: staging
+
+  build-android:
+    name: Install and build android app (Preview)
+    needs: deploy-backend
+    uses: ./.github/workflows/eas-build.yaml
+    secrets: inherit
+    with:
+      PLATFORM: android
+      PROFILE: preview
