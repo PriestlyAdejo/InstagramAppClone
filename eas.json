@@ -25,7 +25,6 @@
       "android": {
         "serviceAccountKeyPath": "./service_account.json",
         "track": "internal",
-        "release_status": "draft",
         "changesNotSentForReview": "true"
       },
       "ios": {}
